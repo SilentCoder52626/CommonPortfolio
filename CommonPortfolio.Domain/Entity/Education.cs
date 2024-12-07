@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public AppUser User { get; set; }
         public required string Title { get; set; }
         public required string University { get; set; }
         public required string Address { get; set; }

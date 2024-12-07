@@ -10,6 +10,7 @@ namespace CommonPortfolio.Domain.Entity
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public AppUser User { get; set; }
         public string? Position { get; set; }
         public string? SubName { get; set; }
         public string? ProfilePictureLink { get; set; }

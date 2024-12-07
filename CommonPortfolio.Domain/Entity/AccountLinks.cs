@@ -6,5 +6,6 @@
         public Guid UserId { get; set; }
         public required string Name { get; set; }
         public required string Url { get; set; }
+        public AppUser User { get; set; }
     }
 }
