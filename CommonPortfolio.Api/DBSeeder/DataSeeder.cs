@@ -33,7 +33,9 @@ namespace CommonPortfolio.Api.DBSeeder
                             Email = adminUserEmail,
                             Contact = "0000000000",
                             Password = BCrypt.Net.BCrypt.HashPassword("admin@123"),
-                            Role = RoleAdmin
+                            Role = RoleAdmin,
+                            IsDeleted = false,
+                            CreatedDate = DateTime.UtcNow
                         };
 
                         await context.AppUsers.AddAsync(newAdminUser);
