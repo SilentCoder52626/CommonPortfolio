@@ -1,11 +1,15 @@
 global using FastEndpoints;
+global using CommonPortfolio.Domain.Models.User;
+global using CommonPortfolio.Domain.Interfaces;
+global using CommonPortfolio.Infrastructure.Context;
 
 using CommonPortfolio.Api.DBSeeder;
+using CommonPortfolio.Domain.Interfaces.Context;
 using CommonPortfolio.Infrastructure.Configurations;
-using CommonPortfolio.Infrastructure.Context;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
+using CommonPortfolio.Api.Middlewares;
 
 var bld = WebApplication.CreateBuilder();
 
@@ -19,7 +23,7 @@ bld.Services
 
 bld.Services.AddHttpClient();
 
-bld.Services.AddDbContext<AppDBContext>(options =>
+bld.Services.AddDbContext<IDBContext,AppDBContext>(options =>
 {
     options.UseNpgsql(bld.Configuration.GetConnectionString("CommonPortfolioConnection"));
 });
@@ -34,6 +38,7 @@ app.UseAuthentication()
    .UseFastEndpoints()
    .UseSwaggerGen();
 
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 DataSeeder.SeedDefaultData(app).Wait();
 

@@ -1,4 +1,6 @@
 ﻿
+using CommonBoilerPlateEight.Domain.Constants;
+
 namespace CommonPortfolio.Api.Features
 {
     public class TestFastEndpoint : EndpointWithoutRequest<TestFastResponse>
@@ -6,7 +8,7 @@ namespace CommonPortfolio.Api.Features
         public override void Configure()
         {
             Get("/api/test");
-            AllowAnonymous();
+            Roles(RoleConstant.RoleUser);
         }
 
         public override async Task<TestFastResponse> ExecuteAsync(CancellationToken ct)

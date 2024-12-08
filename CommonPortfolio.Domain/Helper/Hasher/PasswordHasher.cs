@@ -21,9 +21,7 @@ public class PasswordHasher : IPasswordHasher
 
     public bool ValidatePassword(string password, string hashedPassword)
     {
-        var hashed = BCrypt.Net.BCrypt.HashPassword(password);
-
-        return hashed == hashedPassword;
+        return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
     }
 
 }

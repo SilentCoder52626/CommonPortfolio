@@ -19,6 +19,9 @@ namespace CommonPortfolio.Infrastructure.Mapping
                 .IsRequired()
                 .ValueGeneratedOnAdd();
 
+            builder.HasIndex(u => u.UserName)
+            .IsUnique();
+
             builder.Property(u => u.UserName)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -26,6 +29,9 @@ namespace CommonPortfolio.Infrastructure.Mapping
             builder.Property(u => u.Name)
                 .IsRequired()
                 .HasMaxLength(150);
+
+            builder.HasIndex(u => u.Email)
+            .IsUnique();
 
             builder.Property(u => u.Email)
                 .IsRequired()

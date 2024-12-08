@@ -1,11 +1,13 @@
 ﻿using CommonPortfolio.Domain.Entity;
+using CommonPortfolio.Domain.Interfaces.Context;
 using CommonPortfolio.Infrastructure.Mapping;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 
 namespace CommonPortfolio.Infrastructure.Context
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : DbContext,IDBContext
     {
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
@@ -20,6 +22,11 @@ namespace CommonPortfolio.Infrastructure.Context
         public DbSet<HighlightDetails> HighlightDetails { get; set; }
         public DbSet<SkillType> SkillTypes { get; set; }
         public DbSet<Skill> Skills { get; set; }
+
+        public DatabaseFacade GetDatabase()
+        {
+            return Database;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

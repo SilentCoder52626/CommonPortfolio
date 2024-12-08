@@ -1,6 +1,8 @@
 ﻿using CommonBoilerPlateEight.Domain.Helper;
 using CommonPortfolio.Domain.Helper.FileHelper;
 using CommonPortfolio.Domain.Helper.Hasher;
+using CommonPortfolio.Domain.Interfaces;
+using CommonPortfolio.Domain.Services;
 using CommonPortfolio.Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +29,7 @@ public static class ServiceConfigurations
         //Register services here
         services.AddScoped<IFileUploaderService, FileUploaderService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IUserService, UserService>();
 
     }
 }
