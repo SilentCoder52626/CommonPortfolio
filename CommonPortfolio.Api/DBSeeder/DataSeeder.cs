@@ -1,4 +1,5 @@
-﻿using CommonPortfolio.Domain.Entity;
+﻿using CommonBoilerPlateEight.Domain.Constants;
+using CommonPortfolio.Domain.Entity;
 using CommonPortfolio.Infrastructure.Context;
 
 namespace CommonPortfolio.Api.DBSeeder
@@ -16,7 +17,7 @@ namespace CommonPortfolio.Api.DBSeeder
                     throw new Exception("Please run migration");
                 }
 
-                var RoleAdmin = "admin";
+                var RoleAdmin = RoleConstant.RoleAdmin;
                 //Roles
                 using (var tx = await context.Database.BeginTransactionAsync())
                 {
