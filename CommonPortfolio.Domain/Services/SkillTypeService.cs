@@ -30,6 +30,21 @@ namespace CommonPortfolio.Domain.Services
             return new SkillTypeModel() { Title = model.Title, Id = skillType.Id, UserId = model.UserId };
         }
 
+        public async Task Delete(Guid id)
+        {
+            using var tx = TransactionScopeHelper.GetInstance();
+
+            var skillType = await _context.SkillTypes.FirstOrDefaultAsync(c => c.Id == id);
+            if (skillType == null) throw new CustomException("Skill Type not found.");
+
+            var hasSkills = _context.Skills.Count(c => c.SkillTypeId == id) > 0;
+            if (hasSkills) throw new CustomException("Skill Type has existing skills, Please delete it first to continue.");
+
+            _context.SkillTypes.Remove(skillType);
+            await _context.SaveChangesAsync();
+            tx.Complete();
+        }
+
         public async Task<List<SkillTypeModel>> GetSkillTypes()
         {
             return await _context.SkillTypes.Select(x => new SkillTypeModel()
