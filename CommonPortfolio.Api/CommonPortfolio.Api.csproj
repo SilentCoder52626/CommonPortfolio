@@ -28,4 +28,8 @@
     <ProjectReference Include="..\CommonPortfolio.Infrastructure\CommonPortfolio.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
 </Project>
