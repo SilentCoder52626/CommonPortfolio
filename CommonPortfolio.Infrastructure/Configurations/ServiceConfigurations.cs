@@ -30,6 +30,7 @@ public static class ServiceConfigurations
         services.AddScoped<IFileUploaderService, FileUploaderService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ISkillTypeService, SkillTypeService>();
 
     }
 }
