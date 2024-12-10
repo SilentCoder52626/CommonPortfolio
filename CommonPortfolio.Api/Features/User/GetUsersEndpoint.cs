@@ -13,7 +13,7 @@ namespace CommonPortfolio.Api.Features.User
 
         public override void Configure()
         {
-            Post("/api/users");
+            Get("/api/users");
             Roles(RoleConstant.RoleAdmin);
         }
 

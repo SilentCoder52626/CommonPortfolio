@@ -23,7 +23,7 @@ namespace CommonPortfolio.Domain.Services
 
         public async Task ChangePassword(ChangePasswordModel model)
         {
-            var tx = TransactionScopeHelper.GetInstance();
+            using var tx = TransactionScopeHelper.GetInstance();
             
             var user = await _context.AppUsers.Where(a=>a.Id == model.Id).FirstOrDefaultAsync() ?? throw new CustomException("User not found.");
 

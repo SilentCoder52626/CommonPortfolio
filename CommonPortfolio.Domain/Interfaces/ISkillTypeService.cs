@@ -6,6 +6,6 @@ namespace CommonPortfolio.Domain.Interfaces
     {
         Task<List<SkillTypeModel>> GetSkillTypes();
         Task<SkillTypeModel> Create(SkillTypeCreateModel model);
-        Task Update(SkillTypeModel model);
+        Task Update(SkillTypeUpdateModel model);
     }
 }
