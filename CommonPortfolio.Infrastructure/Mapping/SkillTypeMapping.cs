@@ -21,6 +21,11 @@ namespace CommonPortfolio.Infrastructure.Mapping
             builder.Property(u => u.Title)
                 .IsRequired()
                 .HasMaxLength(500);
+
+            builder.HasOne(s => s.User)
+               .WithMany(u => u.SkillTypes)
+               .HasForeignKey(s => s.UserId)
+               .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

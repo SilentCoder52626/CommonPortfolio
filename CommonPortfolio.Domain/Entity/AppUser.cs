@@ -16,6 +16,7 @@
         public List<AccountLinks> Links { get; set; }
         public List<HighlightDetails> HighlightDetails { get; set; }
         public List<Skill> Skills { get; set; }
+        public List<SkillType> SkillTypes { get; set; }
         public List<Experience> Experiences { get; set; }
         public List<Education> Educations { get; set; }
 

@@ -23,16 +23,16 @@ namespace CommonPortfolio.Domain.Services
 
             ValidateDupliateTitle(model.Title);
 
-            var skillType = new SkillType() { Title = model.Title };
+            var skillType = new SkillType() { Title = model.Title,UserId = model.UserId };
             await _context.SkillTypes.AddAsync(skillType);
             tx.Complete();
-            return new SkillTypeModel() { Title = model.Title, Id = skillType.Id };
+            return new SkillTypeModel() { Title = model.Title, Id = skillType.Id, UserId = model.UserId };
         }
 
         public async Task<List<SkillTypeModel>> GetSkillTypes()
         {
             return await _context.SkillTypes.Select(x => new SkillTypeModel()
-            { Title = x.Title, Id = x.Id }).ToListAsync();
+            { Title = x.Title, Id = x.Id, UserId = x.UserId }).ToListAsync();
         }
 
         public async Task Update(SkillTypeModel model)
@@ -44,6 +44,7 @@ namespace CommonPortfolio.Domain.Services
             ValidateDupliateTitle(model.Title, skillType);
 
             skillType.Title = model.Title;
+            skillType.UserId = model.UserId;
             _context.SkillTypes.Update(skillType);
             tx.Complete();
         }

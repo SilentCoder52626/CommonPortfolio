@@ -74,7 +74,12 @@ namespace CommonPortfolio.Infrastructure.Mapping
                 .HasForeignKey(hd => hd.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(u => u.Skills)
+            builder.HasMany(u => u.SkillTypes)
+                .WithOne()
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+             builder.HasMany(u => u.Skills)
                 .WithOne()
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);

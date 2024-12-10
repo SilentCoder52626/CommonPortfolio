@@ -1,10 +1,4 @@
 ﻿using CommonPortfolio.Domain.Models.SkillType;
-using CommonPortfolio.Domain.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommonPortfolio.Domain.Interfaces
 {
