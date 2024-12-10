@@ -36,7 +36,7 @@ namespace CommonPortfolio.Api.Features.Account
                 options.User.Claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
                 options.User.Claims.Add(new Claim(JwtRegisteredClaimNames.Name, user.Name));
                 options.User.Claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
-                options.User.Claims.Add(new Claim("UserName", user.Email));
+                options.User.Claims.Add(new Claim("UserName", user.UserName));
                 options.User.Roles.Add(user.Role);
                 options.ExpireAt = DateTime.UtcNow.AddDays(1);
             });
