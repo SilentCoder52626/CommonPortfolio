@@ -9,7 +9,6 @@ using CommonPortfolio.Infrastructure.Configurations;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
-using CommonPortfolio.Api.Middlewares;
 
 var bld = WebApplication.CreateBuilder();
 
