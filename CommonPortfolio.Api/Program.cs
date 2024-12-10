@@ -35,10 +35,10 @@ var app = bld.Build();
 
 app.UseAuthentication()
    .UseAuthorization()
+   .UseDefaultExceptionHandler()
    .UseFastEndpoints()
    .UseSwaggerGen();
 
-app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 DataSeeder.SeedDefaultData(app).Wait();
 
