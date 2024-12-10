@@ -1,17 +1,17 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace CommonRSSFeed
+namespace CommonPortfolio.Api.Extensions
 {
     public static class GetCurrentUser
     {
         public static TokenUser ToTokenUser(this ClaimsPrincipal user)
         {
-            var userId = Guid.Parse(user.FindFirstValue(JwtRegisteredClaimNames.Sub));
+            var userId = Guid.Parse(user.FindFirstValue(JwtRegisteredClaimNames.Sub) ?? "");
             var name = user.FindFirstValue(JwtRegisteredClaimNames.Name) ?? "";
             var email = user.FindFirstValue(JwtRegisteredClaimNames.Email) ?? "";
 
-            return new TokenUser() { Id = userId, Name = name, Email =  email};
+            return new TokenUser() { Id = userId, Name = name, Email = email };
 
         }
     }

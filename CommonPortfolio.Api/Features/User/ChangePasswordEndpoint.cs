@@ -1,6 +1,6 @@
 ﻿using CommonBoilerPlateEight.Domain.Constants;
+using CommonPortfolio.Api.Extensions;
 using CommonPortfolio.Domain.Exceptions;
-using CommonRSSFeed;
 
 namespace CommonPortfolio.Api.Features.User
 {
