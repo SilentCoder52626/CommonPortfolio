@@ -88,7 +88,7 @@ namespace CommonPortfolio.Domain.Services
             }
             if (!String.IsNullOrEmpty(filter.Role))
             {
-                userQueryable = userQueryable.Where(a=>a.Role == a.Role);
+                userQueryable = userQueryable.Where(a=>a.Role == filter.Role);
             }
 
             return await userQueryable.Where(a => a.IsDeleted == false).Select(a => new UserModel()
