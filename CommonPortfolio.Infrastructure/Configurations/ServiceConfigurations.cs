@@ -31,6 +31,7 @@ public static class ServiceConfigurations
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISkillTypeService, SkillTypeService>();
+        services.AddScoped<ISkillService, SkillService>();
 
     }
 }
