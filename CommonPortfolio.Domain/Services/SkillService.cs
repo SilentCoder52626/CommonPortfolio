@@ -36,8 +36,7 @@ namespace CommonPortfolio.Domain.Services
                 Id = skill.Id,
                 SkillTypeId = skill.SkillTypeId,
                 Title = skill.Title,
-                UserId = skill.UserId,
-                SkillType = skill.SkillType.Title
+                UserId = skill.UserId
             };
         }
 
@@ -67,7 +66,6 @@ namespace CommonPortfolio.Domain.Services
             return await _context.Skills.Include(c => c.SkillType).OrderBy(a => a.Title).Select(c => new SkillModel()
             {
                 Id = c.Id,
-                SkillType = c.SkillType.Title,
                 SkillTypeId = c.SkillTypeId,
                 Title = c.Title,
                 UserId = c.UserId,
