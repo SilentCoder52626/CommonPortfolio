@@ -30,6 +30,7 @@ public static class ServiceConfigurations
         services.AddScoped<ISkillTypeService, SkillTypeService>();
         services.AddScoped<ISkillService, SkillService>();
         services.AddScoped<IHighlightDetailsService, HighlightDetailsService>();
+        services.AddScoped<IAccountLinksService, AccountLinksService>();
 
     }
 }
