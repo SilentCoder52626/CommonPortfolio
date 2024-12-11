@@ -1,4 +1,4 @@
-﻿namespace CommonPortfolio.Domain.Models.HighlightDetailsModel
+﻿namespace CommonPortfolio.Domain.Models.HighlightDetails
 {
     public class HighlightDetailsUpdateModel
     {

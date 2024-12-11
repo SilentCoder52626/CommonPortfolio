@@ -3,7 +3,7 @@ using CommonPortfolio.Domain.Exceptions;
 using CommonPortfolio.Domain.Helper;
 using CommonPortfolio.Domain.Interfaces;
 using CommonPortfolio.Domain.Interfaces.Context;
-using CommonPortfolio.Domain.Models.HighlightDetailsModel;
+using CommonPortfolio.Domain.Models.HighlightDetails;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommonPortfolio.Domain.Services
@@ -61,7 +61,7 @@ namespace CommonPortfolio.Domain.Services
             tx.Complete();
         }
 
-        public async Task<List<HighlightDetailsModel>> GetHighlightDetailss()
+        public async Task<List<HighlightDetailsModel>> GetHighlightDetails()
         {
             return await _context.HighlightDetails.OrderBy(a => a.Title).Select(c => new HighlightDetailsModel()
             {
