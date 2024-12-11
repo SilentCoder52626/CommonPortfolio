@@ -3,10 +3,7 @@ using CommonPortfolio.Domain.Helper.FileHelper;
 using CommonPortfolio.Domain.Helper.Hasher;
 using CommonPortfolio.Domain.Interfaces;
 using CommonPortfolio.Domain.Services;
-using CommonPortfolio.Infrastructure.Context;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CommonPortfolio.Infrastructure.Configurations;
 
@@ -32,6 +29,7 @@ public static class ServiceConfigurations
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISkillTypeService, SkillTypeService>();
         services.AddScoped<ISkillService, SkillService>();
+        services.AddScoped<IHighlightDetailsService, HighlightDetailsService>();
 
     }
 }
