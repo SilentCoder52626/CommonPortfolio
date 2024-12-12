@@ -18,9 +18,9 @@ namespace CommonPortfolio.Api.Features.HighlightDetails
             Get("/api/highlight");
             Roles([RoleConstant.RoleAdmin, RoleConstant.RoleUser]);
         }
-        public override Task<List<HighlightDetailsModel>> ExecuteAsync(CancellationToken ct)
+        public override async Task<List<HighlightDetailsModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _highlightDetailsService.GetHighlightDetails(User.GetCurrentUserId());
+            return await _highlightDetailsService.GetHighlightDetails(User.GetCurrentUserId());
         }
     }
 

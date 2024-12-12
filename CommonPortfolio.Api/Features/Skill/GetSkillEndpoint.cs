@@ -18,9 +18,9 @@ namespace CommonPortfolio.Api.Features.Skill
             Get("/api/skill");
             Roles([RoleConstant.RoleAdmin, RoleConstant.RoleUser]);
         }
-        public override Task<List<SkillModel>> ExecuteAsync(CancellationToken ct)
+        public override async Task<List<SkillModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _skillService.GetSkills(User.GetCurrentUserId());
+            return await _skillService.GetSkills(User.GetCurrentUserId());
         }
     }
 

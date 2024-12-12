@@ -18,9 +18,9 @@ namespace CommonPortfolio.Api.Features.AccountLinks
             Get("/api/account-link");
             Roles([RoleConstant.RoleAdmin, RoleConstant.RoleUser]);
         }
-        public override Task<List<AccountLinksModel>> ExecuteAsync(CancellationToken ct)
+        public override async Task<List<AccountLinksModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _accountLinksService.GetAccountLinks(User.GetCurrentUserId());
+            return await _accountLinksService.GetAccountLinks(User.GetCurrentUserId());
         }
     }
 

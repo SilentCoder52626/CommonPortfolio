@@ -18,9 +18,9 @@ namespace CommonPortfolio.Api.Features.SkillType
             Get("/api/skill-type");
             Roles([RoleConstant.RoleAdmin, RoleConstant.RoleUser]);
         }
-        public override Task<List<SkillTypeModel>> ExecuteAsync(CancellationToken ct)
+        public override async Task<List<SkillTypeModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _skillTypeService.GetSkillTypes(User.GetCurrentUserId());
+            return await _skillTypeService.GetSkillTypes(User.GetCurrentUserId());
         }
     }
 
