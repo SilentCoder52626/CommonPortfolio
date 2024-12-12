@@ -26,7 +26,7 @@ namespace CommonPortfolio.Api.Features.User
             {
                 NewPassword = req.NewPassword,
                 OldPassword = req.OldPassword,
-                Id = User.ToTokenUser().Id,
+                Id = User.GetCurrentUserId(),
             });
 
             return new ChangePasswordResponse() { Message = "Password changed successfully." };

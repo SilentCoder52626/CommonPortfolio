@@ -21,7 +21,7 @@ namespace CommonPortfolio.Api.Features.HighlightDetails
 
         public override async Task<HighlightDetailsModel> ExecuteAsync(HighlightDetailsCreateRequestModel req, CancellationToken ct)
         {
-            return await _highlightService.Create(new HighlightDetailsCreateModel() { Title = req.Title, UserId = User.ToTokenUser().Id, Description = req.Description });
+            return await _highlightService.Create(new HighlightDetailsCreateModel() { Title = req.Title, UserId = User.GetCurrentUserId(), Description = req.Description });
         }
         
     }

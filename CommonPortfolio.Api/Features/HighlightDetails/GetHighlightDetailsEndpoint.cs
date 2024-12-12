@@ -20,7 +20,7 @@ namespace CommonPortfolio.Api.Features.HighlightDetails
         }
         public override Task<List<HighlightDetailsModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _highlightDetailsService.GetHighlightDetails(User.ToTokenUser().Id);
+            return _highlightDetailsService.GetHighlightDetails(User.GetCurrentUserId());
         }
     }
 

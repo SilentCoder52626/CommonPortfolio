@@ -20,7 +20,7 @@ namespace CommonPortfolio.Api.Features.SkillType
         }
         public override Task<List<SkillTypeModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _skillTypeService.GetSkillTypes(User.ToTokenUser().Id);
+            return _skillTypeService.GetSkillTypes(User.GetCurrentUserId());
         }
     }
 

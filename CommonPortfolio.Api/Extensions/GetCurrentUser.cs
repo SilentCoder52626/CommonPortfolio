@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using CommonPortfolio.Domain.Exceptions;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 
 namespace CommonPortfolio.Api.Extensions
@@ -12,6 +14,20 @@ namespace CommonPortfolio.Api.Extensions
             var email = user.FindFirstValue(JwtRegisteredClaimNames.Email) ?? "";
 
             return new TokenUser() { Id = userId, Name = name, Email = email };
+
+        }
+        public static Guid GetCurrentUserId(this ClaimsPrincipal user)
+        {
+            var userId = user.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+            if(String.IsNullOrEmpty(userId))
+            {
+                throw new CustomException("User not authorized!", HttpStatusCode.Unauthorized);
+            }
+            return Guid.Parse(userId);
+
+
+
 
         }
     }

@@ -23,7 +23,7 @@ namespace CommonPortfolio.Api.Features.User
                 Contact = req.Contact,
                 Email = req.Email,
                 Name = req.Name,
-                Id = User.ToTokenUser().Id,
+                Id = User.GetCurrentUserId(),
             });
             return new UpdateUserResponse() { Message = "User Updated Successfully." };
         }

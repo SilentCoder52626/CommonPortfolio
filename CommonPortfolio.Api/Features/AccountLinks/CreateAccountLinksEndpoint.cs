@@ -21,7 +21,7 @@ namespace CommonPortfolio.Api.Features.AccountLinks
 
         public override async Task<AccountLinksModel> ExecuteAsync(AccountLinksCreateRequestModel req, CancellationToken ct)
         {
-            return await _accountLinksService.Create(new AccountLinksCreateModel() { Name = req.Title, UserId = User.ToTokenUser().Id, Url = req.Url });
+            return await _accountLinksService.Create(new AccountLinksCreateModel() { Name = req.Title, UserId = User.GetCurrentUserId(), Url = req.Url });
         }
         
     }

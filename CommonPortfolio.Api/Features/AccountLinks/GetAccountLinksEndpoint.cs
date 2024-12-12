@@ -20,7 +20,7 @@ namespace CommonPortfolio.Api.Features.AccountLinks
         }
         public override Task<List<AccountLinksModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _accountLinksService.GetAccountLinks(User.ToTokenUser().Id);
+            return _accountLinksService.GetAccountLinks(User.GetCurrentUserId());
         }
     }
 

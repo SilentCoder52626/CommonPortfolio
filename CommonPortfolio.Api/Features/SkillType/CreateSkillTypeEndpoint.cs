@@ -21,7 +21,7 @@ namespace CommonPortfolio.Api.Features.SkillType
 
         public override async Task<SkillTypeModel> ExecuteAsync(SkillTypeCreateRequestModel req, CancellationToken ct)
         {
-            return await _skillTypeService.Create(new SkillTypeCreateModel() { Title = req.Title, UserId = User.ToTokenUser().Id});
+            return await _skillTypeService.Create(new SkillTypeCreateModel() { Title = req.Title, UserId = User.GetCurrentUserId()});
         }
         
     }
