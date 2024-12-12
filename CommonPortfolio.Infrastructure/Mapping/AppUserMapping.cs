@@ -59,38 +59,38 @@ namespace CommonPortfolio.Infrastructure.Mapping
 
             // One-to-One with AccountDetails
             builder.HasOne(u => u.AccountDetails)
-                .WithOne()
+                .WithOne(a=>a.User)
                 .HasForeignKey<AccountDetails>(ad => ad.UserId) 
                 .OnDelete(DeleteBehavior.Cascade);
 
             // One-to-Many relationships
             builder.HasMany(u => u.Links)
-                .WithOne()
+                .WithOne(a => a.User)
                 .HasForeignKey(al => al.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(u => u.HighlightDetails)
-                .WithOne()
+                .WithOne(a => a.User)
                 .HasForeignKey(hd => hd.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(u => u.SkillTypes)
-                .WithOne()
+                .WithOne(a => a.User)
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
              builder.HasMany(u => u.Skills)
-                .WithOne()
+                .WithOne(a => a.User)
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(u => u.Experiences)
-                .WithOne()
+                .WithOne(a => a.User)
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(u => u.Educations)
-                .WithOne()
+                .WithOne(a => a.User)
                 .HasForeignKey(ed => ed.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 

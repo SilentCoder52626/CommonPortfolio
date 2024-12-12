@@ -19,6 +19,8 @@ namespace CommonPortfolio.Infrastructure.Mapping
                 .IsRequired()
                 .ValueGeneratedOnAdd();
 
+            builder.Property(e => e.UserId)
+                .IsRequired();
 
             builder.Property(al => al.Name)
                 .IsRequired()
