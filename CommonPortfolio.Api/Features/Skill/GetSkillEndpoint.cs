@@ -1,4 +1,5 @@
 ﻿using CommonBoilerPlateEight.Domain.Constants;
+using CommonPortfolio.Api.Extensions;
 using CommonPortfolio.Domain.Models.Skill;
 
 namespace CommonPortfolio.Api.Features.Skill
@@ -19,7 +20,7 @@ namespace CommonPortfolio.Api.Features.Skill
         }
         public override Task<List<SkillModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _skillService.GetSkills();
+            return _skillService.GetSkills(User.ToTokenUser().Id);
         }
     }
 

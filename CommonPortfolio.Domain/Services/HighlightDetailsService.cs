@@ -61,9 +61,9 @@ namespace CommonPortfolio.Domain.Services
             tx.Complete();
         }
 
-        public async Task<List<HighlightDetailsModel>> GetHighlightDetails()
+        public async Task<List<HighlightDetailsModel>> GetHighlightDetails(Guid userId)
         {
-            return await _context.HighlightDetails.OrderBy(a => a.Title).Select(c => new HighlightDetailsModel()
+            return await _context.HighlightDetails.Where(a=>a.UserId == userId).OrderBy(a => a.Title).Select(c => new HighlightDetailsModel()
             {
                 Id = c.Id,
                 Description = c.Description,

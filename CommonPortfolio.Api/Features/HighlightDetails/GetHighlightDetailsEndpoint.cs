@@ -1,4 +1,5 @@
 ﻿using CommonBoilerPlateEight.Domain.Constants;
+using CommonPortfolio.Api.Extensions;
 using CommonPortfolio.Domain.Models.HighlightDetails;
 
 namespace CommonPortfolio.Api.Features.HighlightDetails
@@ -19,7 +20,7 @@ namespace CommonPortfolio.Api.Features.HighlightDetails
         }
         public override Task<List<HighlightDetailsModel>> ExecuteAsync(CancellationToken ct)
         {
-            return _highlightDetailsService.GetHighlightDetails();
+            return _highlightDetailsService.GetHighlightDetails(User.ToTokenUser().Id);
         }
     }
 

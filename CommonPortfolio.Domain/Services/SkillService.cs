@@ -61,9 +61,9 @@ namespace CommonPortfolio.Domain.Services
             tx.Complete();
         }
 
-        public async Task<List<SkillModel>> GetSkills()
+        public async Task<List<SkillModel>> GetSkills(Guid userId)
         {
-            return await _context.Skills.Include(c => c.SkillType).OrderBy(a => a.Title).Select(c => new SkillModel()
+            return await _context.Skills.Where(a=>a.UserId == userId).OrderBy(a => a.Title).Select(c => new SkillModel()
             {
                 Id = c.Id,
                 SkillTypeId = c.SkillTypeId,

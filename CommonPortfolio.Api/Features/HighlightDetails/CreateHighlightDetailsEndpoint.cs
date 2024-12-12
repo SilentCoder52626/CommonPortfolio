@@ -6,11 +6,11 @@ namespace CommonPortfolio.Api.Features.HighlightDetails
 {
     public class CreateHighlightDetailsEndpoint : Endpoint<HighlightDetailsCreateRequestModel, HighlightDetailsModel>
     {
-        private readonly IHighlightDetailsService _skillService;
+        private readonly IHighlightDetailsService _highlightService;
 
-        public CreateHighlightDetailsEndpoint(IHighlightDetailsService skillService)
+        public CreateHighlightDetailsEndpoint(IHighlightDetailsService highlightService)
         {
-            _skillService = skillService;
+            _highlightService = highlightService;
         }
 
         public override void Configure()
@@ -21,7 +21,7 @@ namespace CommonPortfolio.Api.Features.HighlightDetails
 
         public override async Task<HighlightDetailsModel> ExecuteAsync(HighlightDetailsCreateRequestModel req, CancellationToken ct)
         {
-            return await _skillService.Create(new HighlightDetailsCreateModel() { Title = req.Title, UserId = User.ToTokenUser().Id, Description = req.Description });
+            return await _highlightService.Create(new HighlightDetailsCreateModel() { Title = req.Title, UserId = User.ToTokenUser().Id, Description = req.Description });
         }
         
     }

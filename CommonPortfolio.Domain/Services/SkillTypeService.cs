@@ -45,9 +45,9 @@ namespace CommonPortfolio.Domain.Services
             tx.Complete();
         }
 
-        public async Task<List<SkillTypeModel>> GetSkillTypes()
+        public async Task<List<SkillTypeModel>> GetSkillTypes(Guid userId)
         {
-            return await _context.SkillTypes.Select(x => new SkillTypeModel()
+            return await _context.SkillTypes.Where(c=>c.UserId == userId).Select(x => new SkillTypeModel()
             { Title = x.Title, Id = x.Id, UserId = x.UserId }).ToListAsync();
         }
 

@@ -19,25 +19,33 @@ namespace CommonPortfolio.Domain.Services
 
         public async Task<AccountLinksModel> Create(AccountLinksCreateModel model)
         {
-            using var tx = TransactionScopeHelper.GetInstance();
-            if (!ValidateDuplicateName(model.Name)) throw new CustomException($"Account Link with ({model.Name}) name already exists.");
-            var skill = new AccountLinks()
+            try
             {
-                Name = model.Name,
-                Url = model.Url,
-                UserId = model.UserId,
-            };
-            await _context.AccountLinks.AddAsync(skill);
-            await _context.SaveChangesAsync();
-            tx.Complete();
+                using var tx = TransactionScopeHelper.GetInstance();
+                if (!ValidateDuplicateName(model.Name)) throw new CustomException($"Account Link with ({model.Name}) name already exists.");
+                var accountLink = new AccountLinks()
+                {
+                    Name = model.Name,
+                    Url = model.Url,
+                    UserId = model.UserId,
+                };
+                await _context.AccountLinks.AddAsync(accountLink);
+                await _context.SaveChangesAsync();
+                tx.Complete();
 
-            return new AccountLinksModel()
+                return new AccountLinksModel()
+                {
+                    Id = accountLink.Id,
+                    Url = accountLink.Url,
+                    Name = accountLink.Name,
+                    UserId = accountLink.UserId
+                };
+            }
+            catch (Exception ex)
             {
-                Id = skill.Id,
-                Url = skill.Url,
-                Name = skill.Name,
-                UserId = skill.UserId
-            };
+
+                throw ex;
+            }
         }
 
         private bool ValidateDuplicateName(string name, AccountLinks? skill = null)
@@ -61,9 +69,9 @@ namespace CommonPortfolio.Domain.Services
             tx.Complete();
         }
 
-        public async Task<List<AccountLinksModel>> GetAccountLinks()
+        public async Task<List<AccountLinksModel>> GetAccountLinks(Guid userId)
         {
-            return await _context.AccountLinks.OrderBy(a => a.Name).Select(c => new AccountLinksModel()
+            return await _context.AccountLinks.Where(c=>c.UserId == userId).OrderBy(a => a.Name).Select(c => new AccountLinksModel()
             {
                 Id = c.Id,
                 Url = c.Url,
