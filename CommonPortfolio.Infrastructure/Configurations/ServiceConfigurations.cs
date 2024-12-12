@@ -31,6 +31,7 @@ public static class ServiceConfigurations
         services.AddScoped<ISkillService, SkillService>();
         services.AddScoped<IHighlightDetailsService, HighlightDetailsService>();
         services.AddScoped<IAccountLinksService, AccountLinksService>();
+        services.AddScoped<IEducationService, EducationService>();
 
     }
 }
