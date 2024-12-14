@@ -99,10 +99,10 @@ namespace CommonPortfolio.Domain.Services
 
             tx.Complete();
         }
-        private bool ValidateDupliateTitle(string title, Education? skillType = null)
+        private bool ValidateDupliateTitle(string title, Education? education = null)
         {
             var existingType = _context.Educations.Where(a => a.Title == title).FirstOrDefault();
-            if (existingType == null || (skillType != null && existingType.Id == skillType.Id))
+            if (existingType == null || (education != null && existingType.Id == education.Id))
                 return true;
             return false;
 

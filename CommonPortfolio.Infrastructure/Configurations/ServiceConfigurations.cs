@@ -32,6 +32,7 @@ public static class ServiceConfigurations
         services.AddScoped<IHighlightDetailsService, HighlightDetailsService>();
         services.AddScoped<IAccountLinksService, AccountLinksService>();
         services.AddScoped<IEducationService, EducationService>();
+        services.AddScoped<IExperienceService, ExperienceService>();
 
     }
 }
