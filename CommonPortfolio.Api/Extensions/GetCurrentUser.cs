@@ -16,18 +16,38 @@ namespace CommonPortfolio.Api.Extensions
             return new TokenUser() { Id = userId, Name = name, Email = email };
 
         }
+        public static string GetCurrentUserName(this ClaimsPrincipal user)
+        {
+            var name = user.FindFirstValue(JwtRegisteredClaimNames.Name);
+
+            if (String.IsNullOrEmpty(name))
+            {
+                throw new CustomException("User not authorized!", HttpStatusCode.Unauthorized);
+            }
+            return name;
+
+        }
+
+        public static string GetCurrentEmail(this ClaimsPrincipal user)
+        {
+            var email = user.FindFirstValue(JwtRegisteredClaimNames.Email);
+
+            if (String.IsNullOrEmpty(email))
+            {
+                throw new CustomException("User not authorized!", HttpStatusCode.Unauthorized);
+            }
+            return email;
+
+        }
         public static Guid GetCurrentUserId(this ClaimsPrincipal user)
         {
             var userId = user.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
-            if(String.IsNullOrEmpty(userId))
+            if (String.IsNullOrEmpty(userId))
             {
                 throw new CustomException("User not authorized!", HttpStatusCode.Unauthorized);
             }
             return Guid.Parse(userId);
-
-
-
 
         }
     }
