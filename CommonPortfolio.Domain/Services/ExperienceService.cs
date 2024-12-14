@@ -30,6 +30,7 @@ namespace CommonPortfolio.Domain.Services
                 UserId = model.UserId,
                 Duration = model.Duration,
                 Organization = model.Organization,
+                ExperienceDetails = []
             };
             model.ExperienceDetails.ForEach(detail =>
             {
@@ -90,7 +91,7 @@ namespace CommonPortfolio.Domain.Services
         public async Task Update(ExperienceUpdateModel model)
         {
             using var tx = TransactionScopeHelper.GetInstance();
-            var experience = await _context.Experiences.FirstOrDefaultAsync(c => c.Id == model.Id);
+            var experience = await _context.Experiences.Include(v=>v.ExperienceDetails).FirstOrDefaultAsync(c => c.Id == model.Id);
 
             if (experience == null) throw new CustomException("Experience not found");
 
