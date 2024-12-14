@@ -27,7 +27,9 @@ namespace CommonPortfolio.Infrastructure.Mapping
                 .HasMaxLength(150);
 
             builder.Property(e => e.Organization)
-                .IsRequired()
+                .HasMaxLength(200);
+
+            builder.Property(e => e.Duration)
                 .HasMaxLength(200);
 
             // Define relationships
