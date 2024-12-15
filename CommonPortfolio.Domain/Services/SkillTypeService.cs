@@ -21,7 +21,7 @@ namespace CommonPortfolio.Domain.Services
         {
             using var tx = TransactionScopeHelper.GetInstance();
 
-            if (!ValidateDupliateTitle(model.Title)) throw new CustomException($"Skill Type with ({model.Title}) title already exists.");
+            if (!ValidateDupliateTitle(model.Title, model.UserId)) throw new CustomException($"Skill Type with ({model.Title}) title already exists.");
 
             var skillType = new SkillType() { Title = model.Title,UserId = model.UserId };
             await _context.SkillTypes.AddAsync(skillType);
@@ -57,7 +57,7 @@ namespace CommonPortfolio.Domain.Services
             var skillType = await _context.SkillTypes.FirstOrDefaultAsync(c=>c.Id == model.Id);
             if (skillType == null) throw new CustomException("Skill Type not found");
 
-            if (!ValidateDupliateTitle(model.Title, skillType)) throw new CustomException($"Skill Type with ({model.Title}) title already exists.");
+            if (!ValidateDupliateTitle(model.Title,skillType.UserId, skillType)) throw new CustomException($"Skill Type with ({model.Title}) title already exists.");
 
             skillType.Title = model.Title;
             _context.SkillTypes.Update(skillType);
@@ -66,9 +66,9 @@ namespace CommonPortfolio.Domain.Services
 
             tx.Complete();
         }
-        private bool ValidateDupliateTitle(string title, SkillType? skillType = null)
+        private bool ValidateDupliateTitle(string title,Guid userId, SkillType? skillType = null)
         {
-            var existingType = _context.SkillTypes.Where(a => a.Title == title).FirstOrDefault();
+            var existingType = _context.SkillTypes.Where(a => a.Title == title && a.UserId == userId).FirstOrDefault();
             if (existingType == null || (skillType != null && existingType.Id == skillType.Id))
                 return true;
             return false;

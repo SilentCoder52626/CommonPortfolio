@@ -22,7 +22,7 @@ namespace CommonPortfolio.Domain.Services
         {
             using var tx = TransactionScopeHelper.GetInstance();
 
-            if (!ValidateDupliateTitle(model.Title)) throw new CustomException($"Experience with ({model.Title}) title already exists.");
+            if (!ValidateDupliateTitle(model.Title, model.UserId)) throw new CustomException($"Experience with ({model.Title}) title already exists.");
 
             var experience = new Experience()
             {
@@ -95,7 +95,7 @@ namespace CommonPortfolio.Domain.Services
 
             if (experience == null) throw new CustomException("Experience not found");
 
-            if (!ValidateDupliateTitle(model.Title, experience)) throw new CustomException($"Experience with ({model.Title}) title already exists.");
+            if (!ValidateDupliateTitle(model.Title,experience.UserId ,experience)) throw new CustomException($"Experience with ({model.Title}) title already exists.");
 
             experience.Title = model.Title;
             experience.Duration = model.Duration;
@@ -118,9 +118,9 @@ namespace CommonPortfolio.Domain.Services
 
             tx.Complete();
         }
-        private bool ValidateDupliateTitle(string title, Experience? experience = null)
+        private bool ValidateDupliateTitle(string title,Guid userId ,Experience? experience = null)
         {
-            var existingType = _context.Experiences.Where(a => a.Title == title).FirstOrDefault();
+            var existingType = _context.Experiences.Where(a => a.Title == title && a.UserId == userId).FirstOrDefault();
             if (existingType == null || (experience != null && existingType.Id == experience.Id))
                 return true;
             return false;

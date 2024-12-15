@@ -20,7 +20,7 @@ namespace CommonPortfolio.Domain.Services
         public async Task<SkillModel> Create(SkillCreateModel model)
         {
             using var tx = TransactionScopeHelper.GetInstance();
-            if (!ValidateDuplicateTitle(model.Title)) throw new CustomException($"Skill with ({model.Title}) title already exists.");
+            if (!ValidateDuplicateTitle(model.Title, model.UserId)) throw new CustomException($"Skill with ({model.Title}) title already exists.");
             var skill = new Skill()
             {
                 Title = model.Title,
@@ -40,9 +40,9 @@ namespace CommonPortfolio.Domain.Services
             };
         }
 
-        private bool ValidateDuplicateTitle(string title, Skill? skill = null)
+        private bool ValidateDuplicateTitle(string title,Guid userId, Skill? skill = null)
         {
-            var existingSkill = _context.Skills.Where(a => a.Title == title).FirstOrDefault();
+            var existingSkill = _context.Skills.Where(a => a.Title == title && a.UserId == userId).FirstOrDefault();
             if (existingSkill == null || (skill != null && existingSkill.Id == skill.Id))
                 return true;
             return false;
@@ -78,7 +78,7 @@ namespace CommonPortfolio.Domain.Services
             var skill = await _context.Skills.FirstOrDefaultAsync(a => a.Id == model.Id);
             if (skill == null) throw new CustomException("Skill not found");
 
-            if (!ValidateDuplicateTitle(model.Title,skill)) throw new CustomException($"Skill with ({model.Title}) title already exists.");
+            if (!ValidateDuplicateTitle(model.Title,skill.UserId,skill)) throw new CustomException($"Skill with ({model.Title}) title already exists.");
 
             skill.Title = model.Title;
             skill.SkillTypeId = model.SkillTypeId;

@@ -22,7 +22,7 @@ namespace CommonPortfolio.Domain.Services
             try
             {
                 using var tx = TransactionScopeHelper.GetInstance();
-                if (!ValidateDuplicateName(model.Name)) throw new CustomException($"Account Link with ({model.Name}) name already exists.");
+                if (!ValidateDuplicateName(model.Name,model.UserId)) throw new CustomException($"Account Link with ({model.Name}) name already exists.");
                 var accountLink = new AccountLinks()
                 {
                     Name = model.Name,
@@ -48,9 +48,9 @@ namespace CommonPortfolio.Domain.Services
             }
         }
 
-        private bool ValidateDuplicateName(string name, AccountLinks? skill = null)
+        private bool ValidateDuplicateName(string name, Guid userId, AccountLinks? skill = null)
         {
-            var existingAccountLinks = _context.AccountLinks.Where(a => a.Name == name).FirstOrDefault();
+            var existingAccountLinks = _context.AccountLinks.Where(a => a.Name == name && a.UserId == userId).FirstOrDefault();
             if (existingAccountLinks == null || (skill != null && existingAccountLinks.Id == skill.Id))
                 return true;
             return false;
@@ -86,7 +86,7 @@ namespace CommonPortfolio.Domain.Services
             var skill = await _context.AccountLinks.FirstOrDefaultAsync(a => a.Id == model.Id);
             if (skill == null) throw new CustomException("Account Links not found");
 
-            if (!ValidateDuplicateName(model.Name,skill)) throw new CustomException($"Account Links with ({model.Name}) Name already exists.");
+            if (!ValidateDuplicateName(model.Name,skill.UserId,skill)) throw new CustomException($"Account Links with ({model.Name}) Name already exists.");
 
             skill.Name = model.Name;
             skill.Url = model.Url;

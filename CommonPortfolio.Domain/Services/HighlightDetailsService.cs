@@ -20,7 +20,7 @@ namespace CommonPortfolio.Domain.Services
         public async Task<HighlightDetailsModel> Create(HighlightDetailsCreateModel model)
         {
             using var tx = TransactionScopeHelper.GetInstance();
-            if (!ValidateDuplicateTitle(model.Title)) throw new CustomException($"Highlight Details with ({model.Title}) title already exists.");
+            if (!ValidateDuplicateTitle(model.Title, model.UserId)) throw new CustomException($"Highlight Details with ({model.Title}) title already exists.");
             var skill = new HighlightDetails()
             {
                 Title = model.Title,
@@ -40,9 +40,9 @@ namespace CommonPortfolio.Domain.Services
             };
         }
 
-        private bool ValidateDuplicateTitle(string title, HighlightDetails? skill = null)
+        private bool ValidateDuplicateTitle(string title, Guid userId ,HighlightDetails? skill = null)
         {
-            var existingHighlightDetails = _context.HighlightDetails.Where(a => a.Title == title).FirstOrDefault();
+            var existingHighlightDetails = _context.HighlightDetails.Where(a => a.Title == title && a.UserId == userId).FirstOrDefault();
             if (existingHighlightDetails == null || (skill != null && existingHighlightDetails.Id == skill.Id))
                 return true;
             return false;
@@ -78,7 +78,7 @@ namespace CommonPortfolio.Domain.Services
             var skill = await _context.HighlightDetails.FirstOrDefaultAsync(a => a.Id == model.Id);
             if (skill == null) throw new CustomException("Highlight Details not found");
 
-            if (!ValidateDuplicateTitle(model.Title,skill)) throw new CustomException($"Highlight Details with ({model.Title}) title already exists.");
+            if (!ValidateDuplicateTitle(model.Title,skill.UserId,skill)) throw new CustomException($"Highlight Details with ({model.Title}) title already exists.");
 
             skill.Title = model.Title;
             skill.Description = model.Description;

@@ -22,7 +22,7 @@ namespace CommonPortfolio.Domain.Services
         {
             using var tx = TransactionScopeHelper.GetInstance();
 
-            if (!ValidateDupliateTitle(model.Title)) throw new CustomException($"Education with ({model.Title}) title already exists.");
+            if (!ValidateDupliateTitle(model.Title, model.UserId)) throw new CustomException($"Education with ({model.Title}) title already exists.");
 
             var education = new Education()
             {
@@ -85,7 +85,7 @@ namespace CommonPortfolio.Domain.Services
 
             if (education == null) throw new CustomException("Education not found");
 
-            if (!ValidateDupliateTitle(model.Title, education)) throw new CustomException($"Education with ({model.Title}) title already exists.");
+            if (!ValidateDupliateTitle(model.Title,education.UserId, education)) throw new CustomException($"Education with ({model.Title}) title already exists.");
 
             education.Title = model.Title;
             education.Address = model.Address;
@@ -99,9 +99,9 @@ namespace CommonPortfolio.Domain.Services
 
             tx.Complete();
         }
-        private bool ValidateDupliateTitle(string title, Education? education = null)
+        private bool ValidateDupliateTitle(string title,Guid userId, Education? education = null)
         {
-            var existingType = _context.Educations.Where(a => a.Title == title).FirstOrDefault();
+            var existingType = _context.Educations.Where(a => a.Title == title && a.UserId == userId).FirstOrDefault();
             if (existingType == null || (education != null && existingType.Id == education.Id))
                 return true;
             return false;
