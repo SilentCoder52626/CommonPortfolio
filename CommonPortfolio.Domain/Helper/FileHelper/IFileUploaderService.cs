@@ -7,6 +7,7 @@ namespace CommonPortfolio.Domain.Helper.FileHelper
         Task<string> SaveFileAsync(IFormFile file, string directoryName);
         void RemoveFile(string filePath);
         void ValidateImageFiles(List<IFormFile> files);
+        string GetFullFilePath(string savedLink);
 
     }
 }

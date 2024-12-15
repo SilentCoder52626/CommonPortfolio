@@ -45,8 +45,8 @@ namespace CommonPortfolio.Domain.Helper.FileHelper
         {
             if (string.IsNullOrEmpty(filePath))
                 return;
-
-            var fullPath = Path.Combine(_rootPath, filePath);
+           
+            var fullPath = GetFullFilePath(filePath);
             if (File.Exists(fullPath))
             {
                 File.Delete(fullPath);
@@ -80,6 +80,12 @@ namespace CommonPortfolio.Domain.Helper.FileHelper
             }
         }
 
+        public string GetFullFilePath(string filePath)
+        {
+
+            return Path.Combine(_rootPath, filePath);
+
+        }
     }
 
     public class FileStorageSettings

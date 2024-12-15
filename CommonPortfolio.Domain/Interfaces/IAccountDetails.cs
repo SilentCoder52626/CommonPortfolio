@@ -1,4 +1,5 @@
-﻿using CommonPortfolio.Domain.Models.AccountDetails;
+﻿using CommonPortfolio.Domain.Entity;
+using CommonPortfolio.Domain.Models.AccountDetails;
 
 namespace CommonPortfolio.Domain.Interfaces
 {
@@ -8,5 +9,6 @@ namespace CommonPortfolio.Domain.Interfaces
         Task<AccountDetailsModel> Create(AccountDetailsCreateModel model);
         Task Update(AccountDetailsUpdateModel model);
         Task Delete(Guid id);
+        Task<AccountDetails> GetById(Guid id);
     }
 }
