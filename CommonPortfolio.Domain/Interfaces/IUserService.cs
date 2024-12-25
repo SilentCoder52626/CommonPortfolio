@@ -7,6 +7,7 @@ namespace CommonPortfolio.Domain.Interfaces
     public interface IUserService
     {
         Task<List<UserModel>> GetUsers(UserFilterModel filter);
+        Task<UserModel> GetUser(Guid userId);
         Task<UserReponseModel> Create(UserCreateModel model);
         Task Update(UserUpdateModel model);
         Task ChangePassword(ChangePasswordModel model);

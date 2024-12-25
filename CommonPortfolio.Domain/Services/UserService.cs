@@ -101,6 +101,18 @@ namespace CommonPortfolio.Domain.Services
                 Role = a.Role,
             }).ToListAsync();
         }
+        public async Task<UserModel?> GetUser(Guid userId)
+        {
+            return await _context.AppUsers.Where(a => a.IsDeleted == false && a.Id == userId ).Select(a => new UserModel()
+            {
+                Contact = a.Contact,
+                CreatedDate = a.CreatedDate,
+                Email = a.Email,
+                Id = a.Id,
+                Name = a.Name,
+                Role = a.Role,
+            }).FirstOrDefaultAsync() ;
+        }
 
         public async Task Update(UserUpdateModel model)
         {
