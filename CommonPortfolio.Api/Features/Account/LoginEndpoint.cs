@@ -2,6 +2,7 @@
 using FastEndpoints.Security;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using CommonPortfolio.Domain.Exceptions;
 
 namespace CommonPortfolio.Api.Features.Account
 {
@@ -27,7 +28,7 @@ namespace CommonPortfolio.Api.Features.Account
 
             if (user == null || !_hasher.ValidatePassword(req.Password,user.Password))
             {
-                ThrowError("Incorrect username or password.", StatusCodes.Status404NotFound);
+                throw new CustomException("Incorrect username or password.");
             }
 
             var jwt = JwtBearer.CreateToken(options =>
@@ -41,11 +42,11 @@ namespace CommonPortfolio.Api.Features.Account
                 options.ExpireAt = DateTime.UtcNow.AddDays(1);
             });
 
-            return new LoginResponse(jwt, user.Email,user.UserName);
+            return new LoginResponse(jwt, user.Email,user.UserName,user.Role);
         }
     }
 
     public record LoginRequest(string UserName, string Password);
 
-    public record LoginResponse(string JWT, string Email, string UserName);
+    public record LoginResponse(string JWT, string Email, string UserName,string Role);
 }
