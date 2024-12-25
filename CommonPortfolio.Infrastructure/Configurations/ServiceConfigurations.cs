@@ -2,16 +2,22 @@
 using CommonPortfolio.Domain.Helper.FileHelper;
 using CommonPortfolio.Domain.Helper.Hasher;
 using CommonPortfolio.Domain.Interfaces;
+using CommonPortfolio.Domain.Interfaces.Context;
 using CommonPortfolio.Domain.Services;
+using CommonPortfolio.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CommonPortfolio.Infrastructure.Configurations;
 
 public static class ServiceConfigurations
 {
-    public static IServiceCollection ConfigureServices(this IServiceCollection services)
+    public static IServiceCollection ConfigureServices(this IServiceCollection services,string connectionString)
     {
-      
+      services.AddDbContext<IDBContext, AppDBContext>(options =>
+       {
+           options.UseNpgsql(connectionString);
+       });
         services.UseDIConfig();
         return services;
     }

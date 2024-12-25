@@ -2,6 +2,8 @@ global using FastEndpoints;
 global using CommonPortfolio.Domain.Models.User;
 global using CommonPortfolio.Domain.Interfaces;
 global using CommonPortfolio.Infrastructure.Context;
+global using CommonBoilerPlateEight.Domain.Constants;
+
 
 using CommonPortfolio.Api.DBSeeder;
 using CommonPortfolio.Domain.Interfaces.Context;
@@ -22,15 +24,24 @@ bld.Services
 
 bld.Services.AddHttpClient();
 
-bld.Services.AddDbContext<IDBContext,AppDBContext>(options =>
-{
-    options.UseNpgsql(bld.Configuration.GetConnectionString("CommonPortfolioConnection"));
-});
 
-bld.Services.ConfigureServices();
+bld.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // frontend's origin
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+var connectionString = bld.Configuration.GetConnectionString("CommonPortfolioConnection");
+bld.Services.ConfigureServices(connectionString);
 
 
 var app = bld.Build();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication()
    .UseAuthorization()
