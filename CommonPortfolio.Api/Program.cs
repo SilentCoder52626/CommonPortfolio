@@ -30,7 +30,7 @@ bld.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173") // frontend's origin
+            policy.WithOrigins(bld.Configuration["CORSSites"]) // frontend's origin
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
