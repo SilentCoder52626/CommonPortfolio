@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonPortfolio.Api", "CommonPortfolio.Api\CommonPortfolio.Api.csproj", "{4E685B8A-4975-4BD3-847A-B5D561142252}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonPortfolio.Api", "CommonPortfolio.Api\CommonPortfolio.Api.csproj", "{4E685B8A-4975-4BD3-847A-B5D561142252}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonPortfolio.Domain", "CommonPortfolio.Domain\CommonPortfolio.Domain.csproj", "{E8B567DB-BE98-4C55-981D-A1F2CAE502DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonPortfolio.Domain", "CommonPortfolio.Domain\CommonPortfolio.Domain.csproj", "{E8B567DB-BE98-4C55-981D-A1F2CAE502DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonPortfolio.Infrastructure", "CommonPortfolio.Infrastructure\CommonPortfolio.Infrastructure.csproj", "{38917CBF-7974-400E-BC20-3AB2CFEF2C70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonPortfolio.Infrastructure", "CommonPortfolio.Infrastructure\CommonPortfolio.Infrastructure.csproj", "{38917CBF-7974-400E-BC20-3AB2CFEF2C70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonPortfolio.Infrastructure.Sql", "CommonPortfolio.Infrastructure.Sql\CommonPortfolio.Infrastructure.Sql.csproj", "{ADE06070-E524-4665-9731-C74E3B8E647E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{38917CBF-7974-400E-BC20-3AB2CFEF2C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38917CBF-7974-400E-BC20-3AB2CFEF2C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38917CBF-7974-400E-BC20-3AB2CFEF2C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE06070-E524-4665-9731-C74E3B8E647E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE06070-E524-4665-9731-C74E3B8E647E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE06070-E524-4665-9731-C74E3B8E647E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE06070-E524-4665-9731-C74E3B8E647E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
