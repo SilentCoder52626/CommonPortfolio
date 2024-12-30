@@ -24,13 +24,14 @@ bld.Services
 
 bld.Services.AddHttpClient();
 
+var corsSites = bld.Configuration.GetSection("CORSSites").Get<string[]>();
 
 bld.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         policy =>
         {
-            policy.WithOrigins(bld.Configuration["CORSSites"]) // frontend's origin
+            policy.WithOrigins(corsSites) // frontend's origin
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
