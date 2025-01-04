@@ -3,10 +3,12 @@ using CommonPortfolio.Domain.Helper.FileHelper;
 using CommonPortfolio.Domain.Helper.Hasher;
 using CommonPortfolio.Domain.Interfaces;
 using CommonPortfolio.Domain.Interfaces.Context;
+using CommonPortfolio.Domain.Interfaces.Email;
 using CommonPortfolio.Domain.Services;
 using CommonPortfolio.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceModule.Service.Email;
 
 namespace CommonPortfolio.Infrastructure.Configurations;
 
@@ -40,6 +42,7 @@ public static class ServiceConfigurations
         services.AddScoped<IEducationService, EducationService>();
         services.AddScoped<IExperienceService, ExperienceService>();
         services.AddScoped<IAccountDetailsService, AccountDetailsService>();
+        services.AddScoped<IEmailSenderService, EmailSenderService>();
 
     }
 }

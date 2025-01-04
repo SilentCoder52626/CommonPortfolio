@@ -14,5 +14,6 @@ namespace CommonPortfolio.Domain.Interfaces
 
         Task<AppUser?> GetUserByEmail(string email);
         Task<AppUser?> GetUserByUserName(string userName);
+        Task ResetPassword(AppUser user, string newPassword);
     }
 }

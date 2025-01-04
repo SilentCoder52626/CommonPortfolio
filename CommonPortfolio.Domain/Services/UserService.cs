@@ -158,5 +158,16 @@ namespace CommonPortfolio.Domain.Services
             return false;
 
         }
+
+        public async Task ResetPassword(AppUser user, string newPassword)
+        {
+            using var tx = TransactionScopeHelper.GetInstance();
+
+            user.Password = _hasher.HashPassword(newPassword);
+
+            _context.AppUsers.Update(user);
+            await _context.SaveChangesAsync();
+            tx.Complete();
+        }
     }
 }
