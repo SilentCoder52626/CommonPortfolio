@@ -11,6 +11,8 @@ using CommonPortfolio.Infrastructure.Configurations;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
+using CommonPortfolio.Domain.Entity.Email;
+using Microsoft.AspNetCore.Http.Features;
 
 var bld = WebApplication.CreateBuilder();
 
@@ -39,6 +41,18 @@ bld.Services.AddCors(options =>
 var connectionString = bld.Configuration.GetConnectionString("CommonPortfolioConnection");
 bld.Services.ConfigureServices(connectionString);
 
+
+bld.Services.Configure<FormOptions>(o =>
+{
+    o.ValueLengthLimit = int.MaxValue;
+    o.MultipartBodyLengthLimit = int.MaxValue;
+    o.MemoryBufferThreshold = int.MaxValue;
+});
+
+var emailConfig = bld.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+bld.Services.AddSingleton(emailConfig);
 
 var app = bld.Build();
 
