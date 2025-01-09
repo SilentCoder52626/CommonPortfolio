@@ -6,13 +6,13 @@ global using CommonBoilerPlateEight.Domain.Constants;
 
 
 using CommonPortfolio.Api.DBSeeder;
-using CommonPortfolio.Domain.Interfaces.Context;
 using CommonPortfolio.Infrastructure.Configurations;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using CommonPortfolio.Domain.Entity.Email;
 using Microsoft.AspNetCore.Http.Features;
+using CommonPortfolio.Domain.Entity.Cloudinary;
 
 var bld = WebApplication.CreateBuilder();
 
@@ -38,9 +38,9 @@ bld.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
+
 var connectionString = bld.Configuration.GetConnectionString("CommonPortfolioConnection");
 bld.Services.ConfigureServices(connectionString);
-
 
 bld.Services.Configure<FormOptions>(o =>
 {
@@ -52,7 +52,14 @@ bld.Services.Configure<FormOptions>(o =>
 var emailConfig = bld.Configuration
         .GetSection("EmailConfiguration")
         .Get<EmailConfiguration>();
+
 bld.Services.AddSingleton(emailConfig);
+
+var cloudinarySettings = bld.Configuration
+        .GetSection("CloudinaryConfiguration")
+        .Get<CloudinarySettings>();
+
+bld.Services.AddSingleton(cloudinarySettings);
 
 var app = bld.Build();
 

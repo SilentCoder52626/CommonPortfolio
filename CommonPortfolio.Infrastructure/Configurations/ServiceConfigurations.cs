@@ -1,4 +1,5 @@
 ﻿using CommonBoilerPlateEight.Domain.Helper;
+using CommonPortfolio.Domain.Helper.CloudinaryHelper;
 using CommonPortfolio.Domain.Helper.FileHelper;
 using CommonPortfolio.Domain.Helper.Hasher;
 using CommonPortfolio.Domain.Interfaces;
@@ -43,6 +44,7 @@ public static class ServiceConfigurations
         services.AddScoped<IExperienceService, ExperienceService>();
         services.AddScoped<IAccountDetailsService, AccountDetailsService>();
         services.AddScoped<IEmailSenderService, EmailSenderService>();
+        services.AddScoped<IPhotoAccessor, PhotoAccessor>();
 
     }
 }
