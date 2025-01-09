@@ -34,6 +34,12 @@ namespace CommonPortfolio.Infrastructure.Mapping
             builder.Property(ad => ad.BannerPictureLink)
                 .HasMaxLength(1000);
 
+            builder.Property(ad => ad.ProfilePicturePublicId)
+               .HasMaxLength(1000);
+
+            builder.Property(ad => ad.BannerPicturePublicId)
+                .HasMaxLength(1000);
+
             builder.Property(ad => ad.ShortDescription)
                 .HasMaxLength(1000); 
 

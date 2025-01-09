@@ -17,6 +17,8 @@ namespace CommonPortfolio.Domain.Entity
         public string? BannerPictureLink { get; set; }
         public string? ShortDescription { get; set; }
         public string? DetailedDescription { get; set;}
+        public string? BannerPicturePublicId { get; set; }
+        public string? ProfilePicturePublicId { get; set; }
 
     }
 }

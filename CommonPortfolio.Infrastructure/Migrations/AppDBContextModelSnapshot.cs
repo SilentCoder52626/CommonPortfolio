@@ -32,6 +32,10 @@ namespace CommonPortfolio.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<string>("BannerPicturePublicId")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
                     b.Property<string>("DetailedDescription")
                         .HasColumnType("text");
 
@@ -40,6 +44,10 @@ namespace CommonPortfolio.Infrastructure.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<string>("ProfilePictureLink")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("ProfilePicturePublicId")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 

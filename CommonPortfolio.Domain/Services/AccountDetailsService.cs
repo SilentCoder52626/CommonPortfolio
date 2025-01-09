@@ -5,6 +5,7 @@ using CommonPortfolio.Domain.Helper.CloudinaryHelper;
 using CommonPortfolio.Domain.Interfaces;
 using CommonPortfolio.Domain.Interfaces.Context;
 using CommonPortfolio.Domain.Models.AccountDetails;
+using CommonPortfolio.Domain.Models.Cloudinary;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommonPortfolio.Domain.Services
@@ -26,41 +27,53 @@ namespace CommonPortfolio.Domain.Services
 
             var accountDetailsDb = _context.AccountDetails.Include(c=>c.User).FirstOrDefault(c => c.UserId == model.UserId);
 
-            string bannerPictureLink = model.BannerPicture == null ? "" : (await _photoAccessor.AddPhoto(model.BannerPicture)).Url;
-            string profilePictureLink = model.ProfilePicture == null ? "" : (await _photoAccessor.AddPhoto(model.ProfilePicture)).Url;
+            var bannerPictureLink = model.BannerPicture == null ? new PhotoUploadResult() : (await _photoAccessor.AddPhoto(model.BannerPicture));
+            var profilePictureLink = model.ProfilePicture == null ? new PhotoUploadResult() : (await _photoAccessor.AddPhoto(model.ProfilePicture));
             if (accountDetailsDb == null)
             {
                 accountDetailsDb = new AccountDetails()
                 {
                     Position = model.Position,
-                    BannerPictureLink = bannerPictureLink,
-                    ProfilePictureLink = profilePictureLink,
+                    BannerPictureLink = bannerPictureLink?.Url,
+                    ProfilePictureLink = profilePictureLink?.Url,
                     ShortDescription = model.ShortDescription,
                     DetailedDescription = model.DetailedDescription,
                     SubName = model.SubName,
-                    UserId = model.UserId
+                    UserId = model.UserId,
+                    ProfilePicturePublicId = profilePictureLink?.PublicId,
+                    BannerPicturePublicId = bannerPictureLink?.PublicId
                 };
                 await _context.AccountDetails.AddAsync(accountDetailsDb);
             }
             else
             {
-                var oldBannerPictureLink = accountDetailsDb.BannerPictureLink;
-                var oldProfilePictureLink = accountDetailsDb.ProfilePictureLink;
+                var oldBannerPicturePublicId = accountDetailsDb.BannerPicturePublicId;
+                var oldProfilePicturePublicId = accountDetailsDb.ProfilePicturePublicId;
 
-                if ((!String.IsNullOrEmpty(oldBannerPictureLink) && bannerPictureLink != "") || (model.DeleteBannerPicture && !String.IsNullOrEmpty(oldBannerPictureLink)))
+                if ((!String.IsNullOrEmpty(oldBannerPicturePublicId) && !String.IsNullOrEmpty(bannerPictureLink?.Url)) || (model.DeleteBannerPicture && !String.IsNullOrEmpty(oldBannerPicturePublicId)))
                 {
-                    await _photoAccessor.DeletePhoto(oldBannerPictureLink);
+                    if(await _photoAccessor.DeletePhoto(oldBannerPicturePublicId))
+                    {
+                        accountDetailsDb.BannerPictureLink = null;
+                        accountDetailsDb.BannerPicturePublicId = null;
+                    }
                 }
-                if ((!String.IsNullOrEmpty(oldProfilePictureLink) && bannerPictureLink != "") || (model.DeleteProfilePicture && !String.IsNullOrEmpty(oldProfilePictureLink)))
+                if ((!String.IsNullOrEmpty(oldProfilePicturePublicId) && !String.IsNullOrEmpty(profilePictureLink?.Url)) || (model.DeleteProfilePicture && !String.IsNullOrEmpty(oldProfilePicturePublicId)))
                 {
-                    await _photoAccessor.DeletePhoto(oldProfilePictureLink);
+                    if (await _photoAccessor.DeletePhoto(oldProfilePicturePublicId))
+                    {
+                        accountDetailsDb.ProfilePictureLink = null;
+                        accountDetailsDb.ProfilePicturePublicId = null;
+                    }
                 }
 
                 accountDetailsDb.Position = model.Position;
-                accountDetailsDb.BannerPictureLink = bannerPictureLink;
-                accountDetailsDb.ProfilePictureLink = profilePictureLink;
+                accountDetailsDb.BannerPictureLink = bannerPictureLink?.Url ?? accountDetailsDb.BannerPictureLink;
+                accountDetailsDb.ProfilePictureLink = profilePictureLink?.Url ?? accountDetailsDb.ProfilePictureLink;
                 accountDetailsDb.ShortDescription = model.ShortDescription;
                 accountDetailsDb.DetailedDescription = model.DetailedDescription;
+                accountDetailsDb.ProfilePicturePublicId = profilePictureLink?.PublicId ?? accountDetailsDb.ProfilePicturePublicId;
+                accountDetailsDb.BannerPicturePublicId = bannerPictureLink?.PublicId ?? accountDetailsDb.BannerPicturePublicId;
                 accountDetailsDb.SubName = model.SubName;
             }
             await _context.SaveChangesAsync();
@@ -68,13 +81,13 @@ namespace CommonPortfolio.Domain.Services
             return new AccountDetailsModel()
             {
                 Position = model.Position,
-                BannerPictureLink = bannerPictureLink,
-                ProfilePictureLink = profilePictureLink,
-                ShortDescription = model.ShortDescription,
-                DetailedDescription = model.DetailedDescription,
-                SubName = model.SubName,
+                BannerPictureLink = accountDetailsDb.BannerPictureLink,
+                ProfilePictureLink = accountDetailsDb.ProfilePictureLink,
+                ShortDescription = accountDetailsDb.ShortDescription,
+                DetailedDescription = accountDetailsDb.DetailedDescription,
+                SubName = accountDetailsDb.SubName,
                 Id = accountDetailsDb.Id,
-                UserId = model.UserId
+                UserId = accountDetailsDb.UserId
             };
         }
 
