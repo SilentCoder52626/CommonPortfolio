@@ -1,7 +1,4 @@
-﻿using CommonBoilerPlateEight.Domain.Constants;
-using CommonPortfolio.Api.Extensions;
-using CommonPortfolio.Domain.Constants;
-using CommonPortfolio.Domain.Helper.FileHelper;
+﻿using CommonPortfolio.Api.Extensions;
 using CommonPortfolio.Domain.Models.AccountDetails;
 
 namespace CommonPortfolio.Api.Features.AccountDetails
@@ -9,11 +6,9 @@ namespace CommonPortfolio.Api.Features.AccountDetails
     public class CreateAccountDetailsEndpoint : Endpoint<AccountDetailsCreateRequestModel, AccountDetailsModel>
     {
         private readonly IAccountDetailsService _accountDetailsService;
-        private readonly IFileUploaderService _fileUploader;
-        public CreateAccountDetailsEndpoint(IAccountDetailsService accountDetailsService, IFileUploaderService fileUploader)
+        public CreateAccountDetailsEndpoint(IAccountDetailsService accountDetailsService)
         {
             _accountDetailsService = accountDetailsService;
-            _fileUploader = fileUploader;
         }
 
         public override void Configure()
@@ -32,8 +27,8 @@ namespace CommonPortfolio.Api.Features.AccountDetails
                 SubName = req.SubName,
                 ShortDescription = req.ShortDescription,
                 DetailedDescription = req.DetailedDescription,
-                ProfilePictureLink = req.ProfilePicture != null ? await _fileUploader.SaveFileAsync(req.ProfilePicture, FileDirectory.UserFileDirectory) : null,
-                BannerPictureLink = req.BannerPicture != null ? await _fileUploader.SaveFileAsync(req.BannerPicture, FileDirectory.UserFileDirectory) : null
+                ProfilePicture = req.ProfilePicture,
+                BannerPicture = req.BannerPicture
             };
 
             return await _accountDetailsService.Create(createModel);

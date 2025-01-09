@@ -1,6 +1,5 @@
 ﻿using CommonBoilerPlateEight.Domain.Constants;
 using CommonPortfolio.Domain.Entity;
-using CommonPortfolio.Domain.Helper.FileHelper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommonPortfolio.Api.Features.AccountDetails
@@ -8,12 +7,10 @@ namespace CommonPortfolio.Api.Features.AccountDetails
     public class DeleteAccountDetailsEndpoint : Endpoint<DeleteAccountDetailsRequest, DeleteAccountDetailsResponse>
     {
         private readonly IAccountDetailsService _accountDetailsService;
-        private readonly IFileUploaderService _fileUploader;
 
-        public DeleteAccountDetailsEndpoint(IAccountDetailsService accountDetailsService, IFileUploaderService fileUploader)
+        public DeleteAccountDetailsEndpoint(IAccountDetailsService accountDetailsService)
         {
             _accountDetailsService = accountDetailsService;
-            _fileUploader = fileUploader;
         }
 
         public override void Configure()
@@ -27,17 +24,6 @@ namespace CommonPortfolio.Api.Features.AccountDetails
             var accountDetails = await _accountDetailsService.GetById(req.Id);
 
             await _accountDetailsService.Delete(req.Id);
-
-            if (!String.IsNullOrEmpty(accountDetails.ProfilePictureLink))
-            {
-                _fileUploader.RemoveFile(accountDetails.ProfilePictureLink);
-            }
-
-
-            if (!String.IsNullOrEmpty(accountDetails.BannerPictureLink))
-            {
-                _fileUploader.RemoveFile(accountDetails.BannerPictureLink);
-            }
 
             return new DeleteAccountDetailsResponse() { Message = "Account details removed successfully." };
         }

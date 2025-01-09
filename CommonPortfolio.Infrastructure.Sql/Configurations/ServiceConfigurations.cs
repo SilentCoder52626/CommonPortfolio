@@ -1,5 +1,5 @@
 ﻿using CommonBoilerPlateEight.Domain.Helper;
-using CommonPortfolio.Domain.Helper.FileHelper;
+using CommonPortfolio.Domain.Helper.CloudinaryHelper;
 using CommonPortfolio.Domain.Helper.Hasher;
 using CommonPortfolio.Domain.Interfaces;
 using CommonPortfolio.Domain.Interfaces.Context;
@@ -32,7 +32,8 @@ public static class ServiceConfigurations
     private static void UseService(IServiceCollection services)
     {
         //Register services here
-        services.AddScoped<IFileUploaderService, FileUploaderService>();
+        services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISkillTypeService, SkillTypeService>();

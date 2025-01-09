@@ -2,7 +2,6 @@
 using CommonPortfolio.Api.Extensions;
 using CommonPortfolio.Domain.Constants;
 using CommonPortfolio.Domain.Entity;
-using CommonPortfolio.Domain.Helper.FileHelper;
 using CommonPortfolio.Domain.Models.AccountDetails;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +11,10 @@ namespace CommonPortfolio.Api.Features.AccountDetails
     public class UpdateAccountDetailsEndpoint : Endpoint<AccountDetailsUpdateRequestModel, AccountDetailsResponseModel>
     {
         private readonly IAccountDetailsService _accountDetailsService;
-        private readonly IFileUploaderService _fileUploader;
 
-        public UpdateAccountDetailsEndpoint(IAccountDetailsService accountDetailsService, IFileUploaderService fileUploader)
+        public UpdateAccountDetailsEndpoint(IAccountDetailsService accountDetailsService)
         {
             _accountDetailsService = accountDetailsService;
-            _fileUploader = fileUploader;
         }
 
         public override void Configure()
@@ -29,8 +26,6 @@ namespace CommonPortfolio.Api.Features.AccountDetails
         public override async Task<AccountDetailsResponseModel> ExecuteAsync(AccountDetailsUpdateRequestModel req, CancellationToken ct)
         {
             var  accountDetails = await _accountDetailsService.GetById(req.Id);
-            var existingProfileLink = accountDetails.ProfilePictureLink;
-            var existingBannerLink = accountDetails.BannerPictureLink;
             var updateModel = new AccountDetailsUpdateModel
             {
                 Id = req.Id,
@@ -38,25 +33,10 @@ namespace CommonPortfolio.Api.Features.AccountDetails
                 SubName = req.SubName,
                 ShortDescription = req.ShortDescription,
                 DetailedDescription = req.DetailedDescription,
-                ProfilePictureLink = req.ProfilePicture != null ? await _fileUploader.SaveFileAsync(req.ProfilePicture, FileDirectory.UserFileDirectory) : null,
-                BannerPictureLink = req.BannerPicture != null ? await _fileUploader.SaveFileAsync(req.BannerPicture, FileDirectory.UserFileDirectory) : null
             };
             await _accountDetailsService.Update(updateModel);
 
-            if(req.ProfilePicture != null)
-            {
-                if(!String.IsNullOrEmpty(existingProfileLink))
-                {
-                    _fileUploader.RemoveFile(existingProfileLink);
-                }
-            }
-            if(req.BannerPicture != null)
-            {
-                if(!String.IsNullOrEmpty(existingBannerLink))
-                {
-                    _fileUploader.RemoveFile(existingBannerLink);
-                }
-            }
+            
             return new AccountDetailsResponseModel() { Message = "Account details updated succesfully." };
         }
     }

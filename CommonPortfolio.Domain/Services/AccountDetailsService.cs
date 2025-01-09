@@ -1,7 +1,7 @@
 ﻿using CommonPortfolio.Domain.Entity;
 using CommonPortfolio.Domain.Exceptions;
 using CommonPortfolio.Domain.Helper;
-using CommonPortfolio.Domain.Helper.FileHelper;
+using CommonPortfolio.Domain.Helper.CloudinaryHelper;
 using CommonPortfolio.Domain.Interfaces;
 using CommonPortfolio.Domain.Interfaces.Context;
 using CommonPortfolio.Domain.Models.AccountDetails;
@@ -12,12 +12,12 @@ namespace CommonPortfolio.Domain.Services
     public class AccountDetailsService : IAccountDetailsService
     {
         private readonly IDBContext _context;
-        private readonly IFileUploaderService _fileUploader;
+        private readonly IPhotoAccessor _photoAccessor;
 
-        public AccountDetailsService(IDBContext context, IFileUploaderService fileUploader)
+        public AccountDetailsService(IDBContext context, IPhotoAccessor photoAccessor)
         {
             _context = context;
-            _fileUploader = fileUploader;
+            _photoAccessor = photoAccessor;
         }
 
         public async Task<AccountDetailsModel> Create(AccountDetailsCreateModel model)
@@ -27,11 +27,14 @@ namespace CommonPortfolio.Domain.Services
             var accountDetailsDb = _context.AccountDetails.Include(c=>c.User).FirstOrDefault(c => c.UserId == model.UserId);
             if(accountDetailsDb != null) throw new CustomException($"Account Details for ({accountDetailsDb.User.Name}) already exists.");
 
+            string bannerPictureLink = model.BannerPicture == null ? "" : (await _photoAccessor.AddPhoto(model.BannerPicture)).Url;
+            string profilePictureLink = model.ProfilePicture == null ? "" : (await _photoAccessor.AddPhoto(model.ProfilePicture)).Url;
+
             var accountDetails = new AccountDetails()
             {
                 Position = model.Position,
-                BannerPictureLink = model.BannerPictureLink,
-                ProfilePictureLink = model.ProfilePictureLink,
+                BannerPictureLink = bannerPictureLink,
+                ProfilePictureLink = profilePictureLink,
                 ShortDescription = model.ShortDescription,
                 DetailedDescription = model.DetailedDescription,
                 SubName = model.SubName,
@@ -43,8 +46,8 @@ namespace CommonPortfolio.Domain.Services
             return new AccountDetailsModel()
             {
                 Position = model.Position,
-                BannerPictureLink = String.IsNullOrEmpty(model.BannerPictureLink) ? "" : _fileUploader.GetFullFilePath(model.BannerPictureLink),
-                ProfilePictureLink = String.IsNullOrEmpty(model.ProfilePictureLink) ? "" : _fileUploader.GetFullFilePath(model.ProfilePictureLink),
+                BannerPictureLink = bannerPictureLink,
+                ProfilePictureLink = profilePictureLink,
                 ShortDescription = model.ShortDescription,
                 DetailedDescription = model.DetailedDescription,
                 SubName = model.SubName,
@@ -70,8 +73,8 @@ namespace CommonPortfolio.Domain.Services
             return await _context.AccountDetails.Where(c => c.UserId == userId).Select(x => new AccountDetailsModel()
             {
                 Position = x.Position,
-                BannerPictureLink = String.IsNullOrEmpty(x.BannerPictureLink) ? "" : _fileUploader.GetFullFilePath(x.BannerPictureLink),
-                ProfilePictureLink = String.IsNullOrEmpty(x.ProfilePictureLink) ? "" : _fileUploader.GetFullFilePath(x.ProfilePictureLink),
+                BannerPictureLink = x.BannerPictureLink ?? "",
+                ProfilePictureLink = x.ProfilePictureLink ?? "",
                 ShortDescription = x.ShortDescription,
                 DetailedDescription = x.DetailedDescription,
                 SubName = x.SubName,
