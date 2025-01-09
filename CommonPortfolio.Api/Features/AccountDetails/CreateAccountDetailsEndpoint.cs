@@ -3,7 +3,7 @@ using CommonPortfolio.Domain.Models.AccountDetails;
 
 namespace CommonPortfolio.Api.Features.AccountDetails
 {
-    public class CreateAccountDetailsEndpoint : Endpoint<AccountDetailsCreateRequestModel, AccountDetailsModel>
+    public class CreateAccountDetailsEndpoint : Endpoint<AccountDetailsAddUpdateRequestModel, AccountDetailsModel>
     {
         private readonly IAccountDetailsService _accountDetailsService;
         public CreateAccountDetailsEndpoint(IAccountDetailsService accountDetailsService)
@@ -13,14 +13,14 @@ namespace CommonPortfolio.Api.Features.AccountDetails
 
         public override void Configure()
         {
-            Post("/api/account-details/create");
+            Post("/api/account-details/addorupdate");
             Roles([RoleConstant.RoleAdmin, RoleConstant.RoleUser]);
             AllowFormData();
         }
 
-        public override async Task<AccountDetailsModel> ExecuteAsync(AccountDetailsCreateRequestModel req, CancellationToken ct)
+        public override async Task<AccountDetailsModel> ExecuteAsync(AccountDetailsAddUpdateRequestModel req, CancellationToken ct)
         {
-            var createModel = new AccountDetailsCreateModel
+            var createModel = new AccountDetailsAddUpdateModel
             {
                 UserId = User.GetCurrentUserId(),
                 Position = req.Position,
@@ -28,14 +28,16 @@ namespace CommonPortfolio.Api.Features.AccountDetails
                 ShortDescription = req.ShortDescription,
                 DetailedDescription = req.DetailedDescription,
                 ProfilePicture = req.ProfilePicture,
-                BannerPicture = req.BannerPicture
+                BannerPicture = req.BannerPicture,
+                DeleteBannerPicture = req.DeleteBannerPicture,
+                DeleteProfilePicture = req.DeleteProfilePicture
             };
 
-            return await _accountDetailsService.Create(createModel);
+            return await _accountDetailsService.AddOrUpdate(createModel);
         }
 
     }
-    public class AccountDetailsCreateRequestModel
+    public class AccountDetailsAddUpdateRequestModel
     {
         public string? Position { get; set; }
         public string? SubName { get; set; }
@@ -43,7 +45,8 @@ namespace CommonPortfolio.Api.Features.AccountDetails
         public IFormFile? BannerPicture { get; set; }
         public string? ShortDescription { get; set; }
         public string? DetailedDescription { get; set; }
-
+        public bool DeleteBannerPicture { get; set; }
+        public bool DeleteProfilePicture { get; set; }
     }
 
 }

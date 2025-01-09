@@ -4,7 +4,7 @@ using CommonPortfolio.Domain.Models.AccountDetails;
 
 namespace CommonPortfolio.Api.Features.AccountDetails
 {
-    public class GetAccountDetailsEndpoint : EndpointWithoutRequest<List<AccountDetailsModel>>
+    public class GetAccountDetailsEndpoint : EndpointWithoutRequest<AccountDetailsModel>
     {
         private readonly IAccountDetailsService _acccountDetailsService;
 
@@ -18,7 +18,7 @@ namespace CommonPortfolio.Api.Features.AccountDetails
             Get("/api/account-details");
             Roles([RoleConstant.RoleAdmin, RoleConstant.RoleUser]);
         }
-        public override async Task<List<AccountDetailsModel>> ExecuteAsync(CancellationToken ct)
+        public override async Task<AccountDetailsModel> ExecuteAsync(CancellationToken ct)
         {
             return await _acccountDetailsService.GetAccountDetails(User.GetCurrentUserId());
         }

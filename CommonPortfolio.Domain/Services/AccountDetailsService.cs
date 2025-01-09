@@ -20,27 +20,49 @@ namespace CommonPortfolio.Domain.Services
             _photoAccessor = photoAccessor;
         }
 
-        public async Task<AccountDetailsModel> Create(AccountDetailsCreateModel model)
+        public async Task<AccountDetailsModel> AddOrUpdate(AccountDetailsAddUpdateModel model)
         {
             using var tx = TransactionScopeHelper.GetInstance();
 
             var accountDetailsDb = _context.AccountDetails.Include(c=>c.User).FirstOrDefault(c => c.UserId == model.UserId);
-            if(accountDetailsDb != null) throw new CustomException($"Account Details for ({accountDetailsDb.User.Name}) already exists.");
 
             string bannerPictureLink = model.BannerPicture == null ? "" : (await _photoAccessor.AddPhoto(model.BannerPicture)).Url;
             string profilePictureLink = model.ProfilePicture == null ? "" : (await _photoAccessor.AddPhoto(model.ProfilePicture)).Url;
-
-            var accountDetails = new AccountDetails()
+            if (accountDetailsDb == null)
             {
-                Position = model.Position,
-                BannerPictureLink = bannerPictureLink,
-                ProfilePictureLink = profilePictureLink,
-                ShortDescription = model.ShortDescription,
-                DetailedDescription = model.DetailedDescription,
-                SubName = model.SubName,
-                UserId = model.UserId
-            };
-            await _context.AccountDetails.AddAsync(accountDetails);
+                accountDetailsDb = new AccountDetails()
+                {
+                    Position = model.Position,
+                    BannerPictureLink = bannerPictureLink,
+                    ProfilePictureLink = profilePictureLink,
+                    ShortDescription = model.ShortDescription,
+                    DetailedDescription = model.DetailedDescription,
+                    SubName = model.SubName,
+                    UserId = model.UserId
+                };
+                await _context.AccountDetails.AddAsync(accountDetailsDb);
+            }
+            else
+            {
+                var oldBannerPictureLink = accountDetailsDb.BannerPictureLink;
+                var oldProfilePictureLink = accountDetailsDb.ProfilePictureLink;
+
+                if ((!String.IsNullOrEmpty(oldBannerPictureLink) && bannerPictureLink != "") || (model.DeleteBannerPicture && !String.IsNullOrEmpty(oldBannerPictureLink)))
+                {
+                    await _photoAccessor.DeletePhoto(oldBannerPictureLink);
+                }
+                if ((!String.IsNullOrEmpty(oldProfilePictureLink) && bannerPictureLink != "") || (model.DeleteProfilePicture && !String.IsNullOrEmpty(oldProfilePictureLink)))
+                {
+                    await _photoAccessor.DeletePhoto(oldProfilePictureLink);
+                }
+
+                accountDetailsDb.Position = model.Position;
+                accountDetailsDb.BannerPictureLink = bannerPictureLink;
+                accountDetailsDb.ProfilePictureLink = profilePictureLink;
+                accountDetailsDb.ShortDescription = model.ShortDescription;
+                accountDetailsDb.DetailedDescription = model.DetailedDescription;
+                accountDetailsDb.SubName = model.SubName;
+            }
             await _context.SaveChangesAsync();
             tx.Complete();
             return new AccountDetailsModel()
@@ -51,24 +73,12 @@ namespace CommonPortfolio.Domain.Services
                 ShortDescription = model.ShortDescription,
                 DetailedDescription = model.DetailedDescription,
                 SubName = model.SubName,
-                Id = accountDetails.Id,
+                Id = accountDetailsDb.Id,
                 UserId = model.UserId
             };
         }
 
-        public async Task Delete(Guid id)
-        {
-            using var tx = TransactionScopeHelper.GetInstance();
-
-            var accountDetails = await _context.AccountDetails.FirstOrDefaultAsync(c => c.Id == id);
-            if (accountDetails == null) throw new CustomException("Account Details not found.");
-
-            _context.AccountDetails.Remove(accountDetails);
-            await _context.SaveChangesAsync();
-            tx.Complete();
-        }
-
-        public async Task<List<AccountDetailsModel>> GetAccountDetails(Guid userId)
+        public async Task<AccountDetailsModel> GetAccountDetails(Guid userId)
         {
             return await _context.AccountDetails.Where(c => c.UserId == userId).Select(x => new AccountDetailsModel()
             {
@@ -80,7 +90,7 @@ namespace CommonPortfolio.Domain.Services
                 SubName = x.SubName,
                 Id = x.Id,
                 UserId = x.UserId,
-            }).ToListAsync();
+            }).FirstOrDefaultAsync() ?? new AccountDetailsModel();
         }
 
         public async Task<AccountDetails> GetById(Guid id)
@@ -89,24 +99,5 @@ namespace CommonPortfolio.Domain.Services
             return accountDetails == null ? throw new CustomException("Account Details not found") : accountDetails;
         }
 
-        public async Task Update(AccountDetailsUpdateModel model)
-        {
-            using var tx = TransactionScopeHelper.GetInstance();
-            var accountDetails = await _context.AccountDetails.FirstOrDefaultAsync(c => c.Id == model.Id);
-            if (accountDetails == null) throw new CustomException("Account Details not found");
-
-            accountDetails.Position = model.Position;
-            accountDetails.BannerPictureLink = model.BannerPictureLink;
-            accountDetails.ProfilePictureLink =  model.ProfilePictureLink;
-            accountDetails.ShortDescription = model.ShortDescription;
-            accountDetails.DetailedDescription = model.DetailedDescription;
-            accountDetails.SubName = model.SubName;
-
-            _context.AccountDetails.Update(accountDetails);
-
-            await _context.SaveChangesAsync();
-
-            tx.Complete();
-        }
     }
 }

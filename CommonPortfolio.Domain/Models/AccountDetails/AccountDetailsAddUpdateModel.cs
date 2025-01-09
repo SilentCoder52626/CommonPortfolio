@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace CommonPortfolio.Domain.Models.AccountDetails
 {
-    public class AccountDetailsCreateModel
+    public class AccountDetailsAddUpdateModel
     {
         public Guid UserId { get; set; }
         public string? Position { get; set; }
@@ -12,5 +12,8 @@ namespace CommonPortfolio.Domain.Models.AccountDetails
         public IFormFile? BannerPicture { get; set; }
         public string? ShortDescription { get; set; }
         public string? DetailedDescription { get; set; }
+
+        public bool DeleteBannerPicture { get; set; }
+        public bool DeleteProfilePicture { get; set; }
     }
 }
