@@ -29,17 +29,9 @@ namespace CommonPortfolio.Domain.Services
                 Title = model.Title,
                 UserId = model.UserId,
                 Duration = model.Duration,
-                Organization = model.Organization,
-                ExperienceDetails = []
+                Description = model.Description,
+                Organization = model.Organization
             };
-            model.ExperienceDetails.ForEach(detail =>
-            {
-                experience.ExperienceDetails.Add(new ExperienceDetails()
-                {
-                    Description = detail.Description,
-                    Title = detail.Title,
-                });
-            });
             await _context.Experiences.AddAsync(experience);
             await _context.SaveChangesAsync();
             tx.Complete();
@@ -51,11 +43,7 @@ namespace CommonPortfolio.Domain.Services
                 Duration = experience.Duration,
                 Organization = experience.Organization,
                 Id = experience.Id,
-                ExperienceDetails = experience.ExperienceDetails.Select(detail => new ExperienceDetailsModel()
-                {
-                    Description = detail.Description,
-                    Title = detail.Title,
-                }).ToList(),
+                Description = experience.Description
             };
         }
 
@@ -80,18 +68,14 @@ namespace CommonPortfolio.Domain.Services
                 Duration = experience.Duration,
                 Organization = experience.Organization,
                 Id = experience.Id,
-                ExperienceDetails = experience.ExperienceDetails.Select(detail => new ExperienceDetailsModel()
-                {
-                    Description = detail.Description,
-                    Title = detail.Title,
-                }).ToList(),
+                Description = experience.Description
             }).ToListAsync();
         }
 
         public async Task Update(ExperienceUpdateModel model)
         {
             using var tx = TransactionScopeHelper.GetInstance();
-            var experience = await _context.Experiences.Include(v=>v.ExperienceDetails).FirstOrDefaultAsync(c => c.Id == model.Id);
+            var experience = await _context.Experiences.FirstOrDefaultAsync(c => c.Id == model.Id);
 
             if (experience == null) throw new CustomException("Experience not found");
 
@@ -100,19 +84,8 @@ namespace CommonPortfolio.Domain.Services
             experience.Title = model.Title;
             experience.Duration = model.Duration;
             experience.Organization = model.Organization;
+            experience.Description = model.Description;
 
-            if(experience.ExperienceDetails.Any())
-                _context.ExperienceDetails.RemoveRange(experience.ExperienceDetails);
-
-
-            model.ExperienceDetails.ForEach(detail =>
-            {
-                experience.ExperienceDetails.Add(new ExperienceDetails()
-                {
-                    Description = detail.Description,
-                    Title = detail.Title,
-                });
-            });
             _context.Experiences.Update(experience);
             await _context.SaveChangesAsync();
 

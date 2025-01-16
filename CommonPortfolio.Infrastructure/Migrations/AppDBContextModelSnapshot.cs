@@ -202,6 +202,10 @@ namespace CommonPortfolio.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Duration")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
@@ -223,31 +227,6 @@ namespace CommonPortfolio.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Experiences", (string)null);
-                });
-
-            modelBuilder.Entity("CommonPortfolio.Domain.Entity.ExperienceDetails", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ExperienceId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExperienceId");
-
-                    b.ToTable("ExperienceDetails", (string)null);
                 });
 
             modelBuilder.Entity("CommonPortfolio.Domain.Entity.HighlightDetails", b =>
@@ -369,17 +348,6 @@ namespace CommonPortfolio.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CommonPortfolio.Domain.Entity.ExperienceDetails", b =>
-                {
-                    b.HasOne("CommonPortfolio.Domain.Entity.Experience", "Experience")
-                        .WithMany("ExperienceDetails")
-                        .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Experience");
-                });
-
             modelBuilder.Entity("CommonPortfolio.Domain.Entity.HighlightDetails", b =>
                 {
                     b.HasOne("CommonPortfolio.Domain.Entity.AppUser", "User")
@@ -437,11 +405,6 @@ namespace CommonPortfolio.Infrastructure.Migrations
                     b.Navigation("SkillTypes");
 
                     b.Navigation("Skills");
-                });
-
-            modelBuilder.Entity("CommonPortfolio.Domain.Entity.Experience", b =>
-                {
-                    b.Navigation("ExperienceDetails");
                 });
 #pragma warning restore 612, 618
         }

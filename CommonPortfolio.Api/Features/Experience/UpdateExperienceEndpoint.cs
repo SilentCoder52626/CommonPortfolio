@@ -26,7 +26,7 @@ namespace CommonPortfolio.Api.Features.Experience
                 Id = req.Id,
                 Duration = req.Duration,
                 Organization = req.Organization,
-                ExperienceDetails = req.ExperienceDetails
+                Description = req.Description
 
             });
             return new ExperienceResponseModel() { Message = "Experience  updated succesfully." };
@@ -39,7 +39,7 @@ namespace CommonPortfolio.Api.Features.Experience
         public Guid Id { get; set; }
         public string? Organization { get; set; }
         public string? Duration { get; set; }
-        public List<ExperienceDetailsModel> ExperienceDetails { get; set; } = [];
+        public string? Description { get; set; }
 
     }
     public class ExperienceResponseModel

@@ -32,16 +32,16 @@ namespace CommonPortfolio.Infrastructure.Mapping
             builder.Property(e => e.Duration)
                 .HasMaxLength(200);
 
+            builder.Property(e => e.Description)
+                .IsRequired()
+                .HasColumnType("text");
+
             // Define relationships
             builder.HasOne(e => e.User)
                 .WithMany(u => u.Experiences)
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(e => e.ExperienceDetails)
-                .WithOne(ed => ed.Experience)
-                .HasForeignKey(ed => ed.ExperienceId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

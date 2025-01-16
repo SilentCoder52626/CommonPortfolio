@@ -27,7 +27,7 @@ namespace CommonPortfolio.Api.Features.Experience
                 UserId = User.GetCurrentUserId(),
                 Duration = req.Duration,
                 Organization = req.Organization,
-                ExperienceDetails = req.ExperienceDetails
+                Description = req.Description
             });
         }
 
@@ -37,7 +37,7 @@ namespace CommonPortfolio.Api.Features.Experience
         public required string Title { get; set; }
         public string? Organization { get; set; }
         public string? Duration { get; set; }
-        public List<ExperienceDetailsModel> ExperienceDetails { get; set; } = [];
+        public string? Description { get; set; }
 
 
     }

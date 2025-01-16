@@ -18,7 +18,6 @@ namespace CommonPortfolio.Infrastructure.Context
         public DbSet<AccountLinks> AccountLinks { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Experience> Experiences { get; set; }
-        public DbSet<ExperienceDetails> ExperienceDetails { get; set; }
         public DbSet<HighlightDetails> HighlightDetails { get; set; }
         public DbSet<SkillType> SkillTypes { get; set; }
         public DbSet<Skill> Skills { get; set; }
