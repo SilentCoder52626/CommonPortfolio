@@ -255,6 +255,33 @@ namespace CommonPortfolio.Infrastructure.Migrations
                     b.ToTable("HighlightDetails", (string)null);
                 });
 
+            modelBuilder.Entity("CommonPortfolio.Domain.Entity.Settings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Theme")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("WEB3FormsAcessKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Settings", (string)null);
+                });
+
             modelBuilder.Entity("CommonPortfolio.Domain.Entity.Skill", b =>
                 {
                     b.Property<Guid>("Id")
@@ -363,6 +390,17 @@ namespace CommonPortfolio.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CommonPortfolio.Domain.Entity.Settings", b =>
+                {
+                    b.HasOne("CommonPortfolio.Domain.Entity.AppUser", "User")
+                        .WithOne("Settings")
+                        .HasForeignKey("CommonPortfolio.Domain.Entity.Settings", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CommonPortfolio.Domain.Entity.Skill", b =>
                 {
                     b.HasOne("CommonPortfolio.Domain.Entity.SkillType", "SkillType")
@@ -405,6 +443,9 @@ namespace CommonPortfolio.Infrastructure.Migrations
                     b.Navigation("HighlightDetails");
 
                     b.Navigation("Links");
+
+                    b.Navigation("Settings")
+                        .IsRequired();
 
                     b.Navigation("SkillTypes");
 

@@ -14,6 +14,7 @@ namespace CommonPortfolio.Domain.Interfaces.Context
         public DbSet<HighlightDetails> HighlightDetails { get; set; }
         public DbSet<SkillType> SkillTypes { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Settings> Settings { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         DbSet<TEntity> Set<TEntity>() where TEntity : class;

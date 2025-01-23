@@ -44,6 +44,7 @@ public static class ServiceConfigurations
         services.AddScoped<IExperienceService, ExperienceService>();
         services.AddScoped<IAccountDetailsService, AccountDetailsService>();
         services.AddScoped<IEmailSenderService, EmailSenderService>();
+        services.AddScoped<ISettingService, SettingService>();
 
     }
 }

@@ -21,6 +21,7 @@ namespace CommonPortfolio.Infrastructure.Context
         public DbSet<HighlightDetails> HighlightDetails { get; set; }
         public DbSet<SkillType> SkillTypes { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Settings> Settings { get; set; }
 
         public DatabaseFacade GetDatabase()
         {

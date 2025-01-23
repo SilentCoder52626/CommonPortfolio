@@ -45,6 +45,8 @@ public static class ServiceConfigurations
         services.AddScoped<IAccountDetailsService, AccountDetailsService>();
 
         services.AddScoped<IEmailSenderService, EmailSenderService>();
+        services.AddScoped<ISettingService, SettingService>();
+
 
     }
 }
