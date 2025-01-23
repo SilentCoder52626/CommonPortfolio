@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonPortfolio.Domain\CommonPortfolio.Domain.csproj" />
-    <ProjectReference Include="..\CommonPortfolio.Infrastructure\CommonPortfolio.Infrastructure.csproj" />
+    <ProjectReference Include="..\CommonPortfolio.Infrastructure.Sql\CommonPortfolio.Infrastructure.Sql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

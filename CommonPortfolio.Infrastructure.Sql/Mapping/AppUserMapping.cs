@@ -62,6 +62,11 @@ namespace CommonPortfolio.Infrastructure.Mapping
                 .WithOne(a=>a.User)
                 .HasForeignKey<AccountDetails>(ad => ad.UserId) 
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.HasOne(u => u.Settings)
+                .WithOne(a=>a.User)
+                .HasForeignKey<Settings>(ad => ad.UserId) 
+                .OnDelete(DeleteBehavior.Cascade);
 
             // One-to-Many relationships
             builder.HasMany(u => u.Links)
