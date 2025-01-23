@@ -27,7 +27,10 @@ namespace CommonPortfolio.Infrastructure.Mapping
 
             builder.Property(s => s.Title)
                 .IsRequired()
-                .HasMaxLength(150); // Set max length for Title
+                .HasMaxLength(150);
+            
+            builder.Property(s => s.IconClass)
+                .HasMaxLength(150);
 
             // Define relationships
             builder.HasOne(s => s.User)

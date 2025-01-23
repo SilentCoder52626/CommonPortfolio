@@ -21,13 +21,14 @@ namespace CommonPortfolio.Api.Features.Skill
 
         public override async Task<SkillModel> ExecuteAsync(SkillCreateRequestModel req, CancellationToken ct)
         {
-            return await _skillService.Create(new SkillCreateModel() { Title = req.Title, UserId = User.GetCurrentUserId(), SkillTypeId = req.SkillTypeId });
+            return await _skillService.Create(new SkillCreateModel() { Title = req.Title, UserId = User.GetCurrentUserId(), SkillTypeId = req.SkillTypeId, IconClass = req.IconClass });
         }
         
     }
     public class SkillCreateRequestModel
     {
         public required string Title { get; set; }
+        public string? IconClass { get; set; }
         public required Guid SkillTypeId { get; set; }
 
     }

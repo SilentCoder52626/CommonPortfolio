@@ -261,6 +261,10 @@ namespace CommonPortfolio.Infrastructure.Sql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("IconClass")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<Guid>("SkillTypeId")
                         .HasColumnType("uniqueidentifier");
 

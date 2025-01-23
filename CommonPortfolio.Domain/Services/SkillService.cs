@@ -26,6 +26,7 @@ namespace CommonPortfolio.Domain.Services
                 Title = model.Title,
                 SkillTypeId = model.SkillTypeId,
                 UserId = model.UserId,
+                IconClass = model.IconClass
             };
             await _context.Skills.AddAsync(skill);
             await _context.SaveChangesAsync();
@@ -36,7 +37,8 @@ namespace CommonPortfolio.Domain.Services
                 Id = skill.Id,
                 SkillTypeId = skill.SkillTypeId,
                 Title = skill.Title,
-                UserId = skill.UserId
+                UserId = skill.UserId,
+                IconClass = skill.IconClass
             };
         }
 
@@ -69,6 +71,7 @@ namespace CommonPortfolio.Domain.Services
                 SkillTypeId = c.SkillTypeId,
                 Title = c.Title,
                 UserId = c.UserId,
+                IconClass = c.IconClass
             }).ToListAsync();
         }
 
@@ -82,7 +85,7 @@ namespace CommonPortfolio.Domain.Services
 
             skill.Title = model.Title;
             skill.SkillTypeId = model.SkillTypeId;
-
+            skill.IconClass = model.IconClass;
             _context.Skills.Update(skill);
             await _context.SaveChangesAsync();
             tx.Complete();

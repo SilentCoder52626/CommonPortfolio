@@ -20,13 +20,14 @@ namespace CommonPortfolio.Api.Features.Skill
         }
         public override async Task<SkillResponseModel> ExecuteAsync(SkillUpdateRequestModel req, CancellationToken ct)
         {
-            await _skillService.Update(new SkillUpdateModel() { Title = req.Title, Id = req.Id, SkillTypeId = req.SkillTypeId});
+            await _skillService.Update(new SkillUpdateModel() { Title = req.Title, Id = req.Id, SkillTypeId = req.SkillTypeId, IconClass = req.IconClass });
             return new SkillResponseModel() { Message = "Skill updated succesfully." };
         }
     }
     public class SkillUpdateRequestModel
     {
         public required string Title { get; set; }
+        public string? IconClass { get; set; }
         public required Guid SkillTypeId { get; set; }
         [FromRoute]
         public Guid Id { get; set; }
