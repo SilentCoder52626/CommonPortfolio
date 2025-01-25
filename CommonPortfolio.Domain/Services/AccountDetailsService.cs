@@ -6,6 +6,7 @@ using CommonPortfolio.Domain.Interfaces;
 using CommonPortfolio.Domain.Interfaces.Context;
 using CommonPortfolio.Domain.Models.AccountDetails;
 using CommonPortfolio.Domain.Models.Cloudinary;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommonPortfolio.Domain.Services
@@ -39,6 +40,7 @@ namespace CommonPortfolio.Domain.Services
                     ShortDescription = model.ShortDescription,
                     DetailedDescription = model.DetailedDescription,
                     SubName = model.SubName,
+                    CVLink = model.CVLink,
                     UserId = model.UserId,
                     ProfilePicturePublicId = profilePictureLink?.PublicId,
                     BannerPicturePublicId = bannerPictureLink?.PublicId
@@ -75,6 +77,7 @@ namespace CommonPortfolio.Domain.Services
                 accountDetailsDb.ProfilePicturePublicId = profilePictureLink?.PublicId ?? accountDetailsDb.ProfilePicturePublicId;
                 accountDetailsDb.BannerPicturePublicId = bannerPictureLink?.PublicId ?? accountDetailsDb.BannerPicturePublicId;
                 accountDetailsDb.SubName = model.SubName;
+                accountDetailsDb.CVLink = model.CVLink;
             }
             await _context.SaveChangesAsync();
             tx.Complete();
@@ -86,6 +89,7 @@ namespace CommonPortfolio.Domain.Services
                 ShortDescription = accountDetailsDb.ShortDescription,
                 DetailedDescription = accountDetailsDb.DetailedDescription,
                 SubName = accountDetailsDb.SubName,
+                CVLink = accountDetailsDb.CVLink,
                 Id = accountDetailsDb.Id,
                 UserId = accountDetailsDb.UserId
             };
@@ -101,6 +105,7 @@ namespace CommonPortfolio.Domain.Services
                 ShortDescription = x.ShortDescription,
                 DetailedDescription = x.DetailedDescription,
                 SubName = x.SubName,
+                CVLink = x.CVLink,
                 Id = x.Id,
                 UserId = x.UserId,
             }).FirstOrDefaultAsync() ?? new AccountDetailsModel();

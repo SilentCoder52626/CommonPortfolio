@@ -30,7 +30,8 @@ namespace CommonPortfolio.Api.Features.AccountDetails
                 ProfilePicture = req.ProfilePicture,
                 BannerPicture = req.BannerPicture,
                 DeleteBannerPicture = req.DeleteBannerPicture,
-                DeleteProfilePicture = req.DeleteProfilePicture
+                DeleteProfilePicture = req.DeleteProfilePicture,
+                CVLink = req.CVLink
             };
 
             return await _accountDetailsService.AddOrUpdate(createModel);
@@ -41,6 +42,7 @@ namespace CommonPortfolio.Api.Features.AccountDetails
     {
         public string? Position { get; set; }
         public string? SubName { get; set; }
+        public string? CVLink { get; set; }
         public IFormFile? ProfilePicture { get; set; }
         public IFormFile? BannerPicture { get; set; }
         public string? ShortDescription { get; set; }

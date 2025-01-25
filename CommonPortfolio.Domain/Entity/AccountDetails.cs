@@ -13,6 +13,7 @@ namespace CommonPortfolio.Domain.Entity
         public AppUser User { get; set; }
         public string? Position { get; set; }
         public string? SubName { get; set; }
+        public string? CVLink { get; set; }
         public string? ProfilePictureLink { get; set; }
         public string? BannerPictureLink { get; set; }
         public string? ShortDescription { get; set; }

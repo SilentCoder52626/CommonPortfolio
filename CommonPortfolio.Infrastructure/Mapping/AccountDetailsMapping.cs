@@ -27,6 +27,9 @@ namespace CommonPortfolio.Infrastructure.Mapping
 
             builder.Property(ad => ad.SubName)
                 .HasMaxLength(150); 
+            
+            builder.Property(ad => ad.CVLink)
+                .HasMaxLength(250); 
 
             builder.Property(ad => ad.ProfilePictureLink)
                 .HasMaxLength(1000); 

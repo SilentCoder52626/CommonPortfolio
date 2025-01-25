@@ -36,6 +36,10 @@ namespace CommonPortfolio.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<string>("CVLink")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
                     b.Property<string>("DetailedDescription")
                         .HasColumnType("text");
 
@@ -270,7 +274,6 @@ namespace CommonPortfolio.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("WEB3FormsAcessKey")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
