@@ -1,5 +1,6 @@
 ﻿using CommonBoilerPlateEight.Domain.Constants;
 using CommonPortfolio.Domain.Entity;
+using CommonPortfolio.Domain.Enums;
 using CommonPortfolio.Domain.Exceptions;
 using CommonPortfolio.Domain.Helper;
 using CommonPortfolio.Domain.Helper.Hasher;
@@ -132,6 +133,10 @@ namespace CommonPortfolio.Domain.Services
                 .FirstOrDefaultAsync() ?? throw new CustomException("User not found.");
 
             var response = new DetailedUserModel();
+            if(user.AccountDetails == null)
+            {
+                throw new CustomException("Account Details not configured.");
+            }
             response.AccountDetails = new AccountDetailsModel()
             {
                 BannerPictureLink = user.AccountDetails.BannerPictureLink,
@@ -202,7 +207,10 @@ namespace CommonPortfolio.Domain.Services
                 IconClass = a.IconClass,
                 SkillTypeId = a.SkillTypeId
             }).ToList();
-
+            if(user.Settings == null)
+            {
+                user.Settings = new Settings() { Theme =ThemeEnum.Default.ToString(), WEB3FormsAcessKey = "" };
+            }
             response.Setting = new Models.Settings.SettingModel() { Theme = user.Settings.Theme, WEB3FormsAcessKey = user.Settings.WEB3FormsAcessKey, UserId = user.Id, Id = user.Settings.Id };
 
             return response;
